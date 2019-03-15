@@ -16,7 +16,7 @@
 	
 # 2 MocoMoco四足机器人平台介绍
 
- <div align=center><img width="240" height="300" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/fc1.JPG"/></div>
+ <div align=center><img width="240" height="300" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/r2.JPG"/></div>
 
 MocoMoco四足机器人是一个8自由度足式机器人其借鉴了GhostRobtic推出的Minitature机器人，之所以没有像波士顿动力或其他开发者一样采用
 12自由度机器人是因为其在维护难度和成本上都大大提升，而8自由度机器人实际能完美的模拟12自由度单轴的控制特性能快速学习虚拟腿和
