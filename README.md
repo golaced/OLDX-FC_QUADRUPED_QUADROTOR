@@ -68,24 +68,24 @@ PWM 输出通道| 12通道输出
 <div align=center><img width="540" height="460" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/fc.jpg"/></div>
 <br>
 
-接口|说明|支持模块
+接口|说明(以图片视角)|支持模块
 -------------|-------------|-------------
-飞控下载|飞控模块SWD下载口|download_fc模块 C->SCLK D->SWD
-导航下载|导航模块SWD下载口|download_stlink模块
-导航串口1|GPS和外部罗盘IIC接口|乐迪M8N Mini GPS C->SCL D->SDA
-导航串口5|光流传感器接口|Pixflow  OLDX-AMF
-导航串口3|超声波接口|US100 (串口模式下T->T R->R)  北醒激光测距模块
-导航串口4|预留传感器接口|
-导航CAN|预留CAN总线接口|
-飞控串口3|图像处理接口|树莓派  Odroid-XU4 （图像处理器需自行供电）
-飞控串口1|数传接口|匿名数传 3DR数传  CUAV WIFI数传
-PWM1~8|电调接口|400Hz
-AUX1~4|电调9~12/舵机控制接口 1俯仰 2横滚 3投递器开关|两轴舵机云台 两轴无刷云台
-AD1~4|模拟电压采集接口|压力传感器AD(0~3.3V)
-SBUS|接收机接口|天地飞接收机 Futaba接收机
-舵机供电选择|R39外部供电 R38飞控供电 （任选一）|
-供电|采用6P自锁双头端子线与供电模块连续|power模块 +->DC B->蜂鸣器信号 5->5V降压输入
+复位|控制器复位按键|
+无线下载|从左到右：GND SCK SWD 5V|接正点原子无线调试模块
+SWD|从左到右：GND SWD SCK 5V|接Stlink 转接板
+GPS|从左到右：5V RX2 TX2 SCL SDA GND|接MINIGPS
+足底传感器|从上到下： VCC GND AD1/SCL  KEY_GROUND/SDA|接压力/开关/震动/测距
+供电选择|水平挑帽 VCC从上到下：3.3V  5V|
+SBUS|从左到右：GND 5V Signal|天地飞接收机WBUS  Futaba SBUS接收机
+光流|从左到右: RX4 TX4 GND 5V|接光流传感器
+数传|从左到右: TX1 RX1 GND 5V|接匿名数传 
+树莓派|从左到右：TX3 RX3 GND 5V|树莓派A3
+腿1|从左到右：GND VCC PWM   从上到下：外侧舵机  里侧舵机  机械臂/云台|舵机外部供电
+电源|从上到下：BEEP 舵机供电使能 GND GND 5V  VCC舵机  VCC舵机 VCC电池|电源模块 
 
+注：控制器机体为RGB LED方向，上表中仅给出腿1 舵机接口和传感器接口引脚顺序，其余三个腿为镜像对称的结构，
+即以腿2为例 从上到下为：外侧舵机  内侧舵机  云台  从左到右为：PWM VCC GND    腿2传感器 从上到下为：
+KEY_GROUND/SDA  AD2/SCL  GND  VCC
 
 # 3 DEMO测试
 ____该项目免费提供了基础测试的3D打印机架能免费下载自行打印，官方将推出全碳版本的机架请
