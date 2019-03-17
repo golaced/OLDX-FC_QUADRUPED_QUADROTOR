@@ -20,7 +20,7 @@
 
  <div align=center><img width="550" height="300" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/r2.jpg"/></div>
 
-MocoMoco四足机器人是一个8自由度足式机器人其借鉴了GhostRobtic推出的Minitature机器人，之所以没有像波士顿动力或其他开发者一样采用
+  MocoMoco四足机器人是一个8自由度足式机器人其借鉴了GhostRobtic推出的Minitature机器人，之所以没有像波士顿动力或其他开发者一样采用
 12自由度机器人是因为其在维护难度和成本上都大大提升，而8自由度机器人实际能完美的模拟12自由度单轴的控制特性能快速学习虚拟腿和
 虚拟力相关步态理论，仅损失了部分侧向移动能力。同时对小体积足式机器人来首先与自身移动速度其相比外部环境来说不存绝对意义上狭窄
 的区域，能满足绝大部分室内外场景下的可靠移动。<br>
@@ -41,7 +41,7 @@ MocoMoco四足机器人是一个8自由度足式机器人其借鉴了GhostRobtic
 预留接口|GPS-1 串口-4 AD采样-4 着地开关输入-4
 PWM 输出通道| 12通道输出 
 供电|5V输入 舵机外部供电  AD传感器3.3/5V供电选择
-图像处理器|树莓派A3+  1.4G 4核  带独立供电开关(控制板兼容树莓派全系列可作为外扩IO板安装，通讯仅采用引脚串口)
+图像处理器|树莓派A3+  1.4G 4核  带独立供电开关(控制板兼容树莓派全系列可作为外扩IO板安装，但通讯仅采用引脚串口)
 遥控方式|2.4G射频 SBUS航模遥控
 地面站|QGround   匿名地面站(需要额外OLDX-REMOTE监视器)
 
@@ -53,12 +53,12 @@ PWM 输出通道| 12通道输出
 尺寸|30cm * 20cm *10cm  
 全腿长|8cm
 重量|600g
-供电|7.4V  18650 * 2(3000mah  续航<35 min) 带开关 
+供电|7.4V  18650 * 2(3000mah  续航>35 min) 带开关 
 步态支持|Tort步态  Fly-Trot步态  波动步态
 最大移动速度|0.4m/s
 最大转向速度|30度/s
 步态周期|>0.35 s
-舵机性能|Kpower 12g金属舵机-8个  6V-60度/0.035s  9kg扭矩
+舵机性能|Kpower 12g金属舵机 *8(6V-60度/0.035s  9kg扭矩)
 足底传感器|薄膜压力/微动开关(默认无传感器)
 控制模式|遥控模式  姿态平衡模式(有/无着地传感器)  驾驶模式  
 
@@ -72,11 +72,12 @@ PWM 输出通道| 12通道输出
 ## 3.3 移动测试
 
 
+## 3.4 使用STLink或正点原子无线下载器调试
 
-## 3.4 高度轨迹和姿态轨迹跟踪测试
+## 3.5 高度轨迹和姿态轨迹跟踪测试
 
 
-## 3.5 DEMO程序优化和后续开发建议
+## 3.6 DEMO程序优化和后续开发建议
 
 
 
@@ -108,6 +109,7 @@ PWM 输出通道| 12通道输出
 ## 4.4 SDK开发
 
 # 5 捐赠与项目后续开发计划
+团队计划后期推出5kg级的足式机器人开发底盘，支持RPlidar激光雷达导航进行SLAM算法验证，能以相同的价格替代目前市面上同类的四轮小车平台如Autolabor等。
  <div align=center><img width="800" height="300" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/r1.jpg"/></div>
 如果您觉得该项目对您有帮助，也为了更好的项目推进和软硬件更新，如果愿意请通过微信捐赠该项目！
 <div align=center><img width="240" height="300" src="https://github.com/golaced/OLDX_DRONE_SIM/blob/rmd/support_file/img_file/pay.png"/></div>
