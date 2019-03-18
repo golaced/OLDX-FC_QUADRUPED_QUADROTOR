@@ -209,7 +209,7 @@ ____将机器人放置于一个可倾斜的平台，通过人为倾斜来验证�
 
 ## 3.4 使用STLink或正点原子无线下载器调试
 ____使用下载器转接板与控制板进行连接，需要4P双头卡槽线、USB转接小板和大板以及一根micro USB线，连接后结果如下：
-<div align=center><img width="540" height="460" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/download.jpg"/></div>
+<div align=center><img width="500" height="460" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/download.jpg"/></div>
 
 如采用正点原子无线下载器则请参考项目中附带的说明pdf文件，另外两种下载方式不可以同时使用。
 
