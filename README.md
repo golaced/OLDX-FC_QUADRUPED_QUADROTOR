@@ -173,11 +173,11 @@ Sch.PWM9 TIM1_1 [D_LEG] 外舵机3|机体左 |PSch.WM12 TIM8_3 [D_LEG] 外舵机
 (1)组装腿部支持结构，首先不连接足底3D打印件以方便后续腿部偏差安装，将舵机附带的齿轮臂与3D打印件组装并采用1.25mm螺丝固定防止滑落，结果如下图所示:
 <div align=center><img width="540" height="460" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a10.JPG"/></div>
 
-(2)连接下载器对机器人供电测试系统供电是否正常，DEBUG程序对腿部结构偏差进行校准：
+(2)连接下载器对机器人供电测试系统供电是否正常，DEBUG程序对腿部结构偏差进行校准：<br>
 a.首先将vmc_demo.c 文件下force_dj_off_reset加入watch中并在DEBUG中置为1将舵机偏差复位。<br>
 b.将vmc_all.sita_test[4]置1此时舵机会被供电转动到默认偏差下的90°。<br>
 c.将安装好的大小腿以大约90°垂直舵机的方式进行安装，如下图所示：
-<div align=center><img width="540" height="460" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a11.jpg"/></div>
+<div align=center><img width="600" height="460" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a11.jpg"/></div>
 d.修改vmc[i].param.PWM_OFF中的偏差参数，[0]对应外侧舵机角度[1]为内侧舵机通过调整参数和目视校准保证舵机90°绝对垂直，完成对4只角全部校准后用舵机配套螺丝固定轴承。<br>
 e.将mems.Gyro_CALIBRATE置为1，将当前标定后的偏差存储在FLASH中。<br>
 f.复位芯片查看读出的偏差是否一致
