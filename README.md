@@ -120,30 +120,40 @@ M2.5*5|8|固定控制器
 
 
 ## 3.1 机器人组装（官方机架）
-### 3.1.1 中心体和机臂组装
+### 3.1.1 机臂和中心体组装
+(1)组装机臂，其安装在中心体底部并且开关方向朝向后方，结果如下图所示：
+<div align=center><img width="540" height="460" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/fc.jpg"/></div>
 
 
-### 3.1.2 安装控制板和舵机
+### 3.1.2 安装电池仓、控制板和舵机
+(1)首先安装电池仓，其安装在中心体底部并且开关方向朝向后方，结果如下图所示：
+<div align=center><img width="540" height="460" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/fc.jpg"/></div>
 
+(2)安装舵机，舵机安装采用轴承在下的方式,并且外侧舵机轴承朝向机体内部，内侧舵机轴承超外以保证腿部移动时不会受机体阻碍，结果如下图所示:
+<div align=center><img width="540" height="460" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/fc.jpg"/></div>
 
+(3)安装控制板，将控制板安装在中心体上方，主要如没有安装控制器外壳则需要将控制器采用3D打印件垫高以防止电路板底部与碳板和电池仓估计螺丝短路，结果如下图所示:
+<div align=center><img width="540" height="460" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/fc.jpg"/></div>
+
+(4)连接舵机线，从机臂内部将舵机线与控制板连接，具体连接顺序参照下标，另外注意PWM引脚朝向机体内部为5V供电即可，具体引脚供电顺序参考PCB IO图：
 
 **舵机接线**
 ||
 -------------|-------------|----------
-Sch.PWM3 TIM3_3 外舵机1|机体右 |Sch.PWM6 TIM4_2 外舵机2
-Sch.PWM2 TIM3_2 内舵机1| |Sch.PWM5 TIM4_1 内舵机2
+Sch.PWM3 TIM3_3 [D_LEG] 外舵机1|机体右 |Sch.PWM6 TIM4_2 [D_LEG] 外舵机2
+Sch.PWM2 TIM3_2 [X_LEG] 内舵机1| |Sch.PWM5 TIM4_1 [X_LEG] 内舵机2
 Sch.PWM1 TIM3_1 NS| |Sch.PWM4 TIM3_4 NS
 机头||机尾
 Sch.PWM7 TIM4_3 NS| |Sch.PWM10 TIM8_1 NS
-Sch.PWM8 TIM4_4 内舵机3| |Sch.PWM11 TIM8_2 内舵机4
-Sch.PWM9 TIM1_1 外舵机3|机体左 |PSch.WM12 TIM8_3 外舵机4
+Sch.PWM8 TIM4_4 [X_LEG] 内舵机3| |Sch.PWM11 TIM8_2 [X_LEG] 内舵机4
+Sch.PWM9 TIM1_1 [D_LEG] 外舵机3|机体左 |PSch.WM12 TIM8_3 [D_LEG] 外舵机4
 
 
 ### 3.1.3 连接电子模块
 
 
 
-## 3.2 腿部偏差校准与传感器校准
+## 3.2 腿部偏差安装、校准与IMU传感器校准
 
 
 ## 3.3 移动测试
