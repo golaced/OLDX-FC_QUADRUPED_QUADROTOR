@@ -171,13 +171,13 @@ Sch.PWM9 TIM1_1 [D_LEG] 外舵机3|机体左 |PSch.WM12 TIM8_3 [D_LEG] 外舵机
 
 ## 3.2 腿部安装、偏差校准与IMU传感器校准
 (1)组装腿部支持结构，首先不连接足底3D打印件以方便后续腿部偏差安装，将舵机附带的齿轮臂与3D打印件组装并采用1.25mm螺丝固定防止滑落，结果如下图所示:
-<div align=center><img width="540" height="460" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a7.jpg"/></div>
+<div align=center><img width="540" height="460" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a10.jpg"/></div>
 
 (2)连接下载器对机器人供电测试系统供电是否正常，DEBUG程序对腿部结构偏差进行校准：
 a.首先将vmc_demo.c 文件下force_dj_off_reset加入watch中并在DEBUG中置为1将舵机偏差复位。<br>
 b.将vmc_all.sita_test[4]置1此时舵机会被供电转动到默认偏差下的90°。<br>
 c.将安装好的大小腿以大约90°垂直舵机的方式进行安装，如下图所示：
-<div align=center><img width="540" height="460" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a7.jpg"/></div>
+<div align=center><img width="540" height="460" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a11.jpg"/></div>
 d.修改vmc[i].param.PWM_OFF中的偏差参数，[0]对应外侧舵机角度[1]为内侧舵机通过调整参数和目视校准保证舵机90°绝对垂直，完成对4只角全部校准后用舵机配套螺丝固定轴承。<br>
 e.将mems.Gyro_CALIBRATE置为1，将当前标定后的偏差存储在FLASH中。<br>
 f.复位芯片查看读出的偏差是否一致
@@ -189,7 +189,7 @@ f.复位芯片查看读出的偏差是否一致
 <br>
 
 (4)安装足底3D打印件，如有足底传感器在控制板上连接对应传感器，最后完成整机的组装：
-<div align=center><img width="540" height="460" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a7.jpg"/></div>
+<div align=center><img width="540" height="460" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a12.jpg"/></div>
 
 ## 3.3 移动测试
 (1)平地测试<br>
@@ -209,7 +209,7 @@ f.复位芯片查看读出的偏差是否一致
 
 ## 3.4 使用STLink或正点原子无线下载器调试
 ____使用下载器转接板与控制板进行连接，需要4P双头卡槽线、USB转接小板和大板以及一根micro USB线，连接后结果如下：
-<div align=center><img width="540" height="460" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a7.jpg"/></div>
+<div align=center><img width="540" height="460" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/download.jpg"/></div>
 
 如采用正点原子无线下载器则请参考项目中附带的说明pdf文件，另外两种下载方式不可以同时使用。
 
@@ -301,7 +301,7 @@ ____采用VMC步态库时的测试方法与DEMO程序一样，同样可以进行
 上下坡测试，用户可以通过使用步态数量高度的书本搭建楼梯、坡和障碍物，在桌面或室内完成步态算法的验证和测试，或者构建一个竞技场
 与好友在后续图像自主控制中进行PK，如下图所示：
 
-<div align=center><img width="540" height="460" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a7.jpg"/></div>
+<div align=center><img width="540" height="460" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/playground.jpg"/></div>
 
 
 ## 4.3 参数调节
