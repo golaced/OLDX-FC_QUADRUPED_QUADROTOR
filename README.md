@@ -115,33 +115,124 @@ M1.4*4|8|固定齿轮
 M2.5*3|4|安装电池盒
 M2.5*5|8|固定控制器
 
-**-搭建该项目的方式-**<br>
 
+<br>
+**-搭建该项目的方式-**
 
+方式|说明
+-------------|-------------
+整机购买|从官方淘宝店购买碳素机架 已经加工好的控制器
+机架打印+控制器购买|自行加工3D打印机架  从官方购买控制器
+机架打印+控制器制版加工|自行加工3D打印机架 自行制作、焊接控制器
 
 ## 3.1 机器人组装（官方机架）
-### 3.1.1 中心体和机臂组装
+### 3.1.1 机臂和中心体组装
+(1)组装机臂，需要2个机臂碳素片、半圆3D打印件、中心体3D打印支持件，注意机器人机臂需要具有5°的外扩角度，注意上板卡槽为T字，下标卡槽为L字，同时用2mm螺丝加固机臂，结果如下图所示：
+<div align=center><img width="540" height="460" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a1.jpg"/></div>
 
+(2)组装中心体，需要上下中心体碳素片、4个M3*32铜柱，首先将铜柱固定在底板上结果如下图所示：
+<div align=center><img width="540" height="460" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a2.jpg"/></div>
 
-### 3.1.2 安装控制板和舵机
+(3)安装机臂，将四个机臂固定在下板卡槽上注意要用5°外扩，结果如下图所示：
+<div align=center><img width="540" height="460" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a3.jpg"/></div>
 
+### 3.1.2 安装电池仓、控制板和舵机
+(1)首先安装电池仓，其安装在中心体底部并且开关方向朝向后方，结果如下图所示：
+<div align=center><img width="540" height="460" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a4.jpg"/></div>
 
-### 3.1.3 连接电子模块
+(2)安装舵机，舵机安装采用轴承在下的方式,并且外侧舵机轴承朝向机体内部，内侧舵机轴承超外以保证腿部移动时不会受机体阻碍，用2mm自锁螺丝固定在碳板上，结果如下图所示:
+<div align=center><img width="540" height="460" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a5.jpg"/></div>
 
+(3)安装控制板，将控制板安装在中心体上方，主要如没有安装控制器外壳则需要将控制器采用3D打印件垫高以防止电路板底部与碳板和电池仓估计螺丝短路，结果如下图所示:
+<div align=center><img width="540" height="460" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a6.jpg"/></div>
 
+(4)连接舵机线，从机臂内部绕线将舵机线与控制板连接，具体连接顺序参照下标，另外注意PWM引脚朝向机体内部为5V供电即可，具体引脚供电顺序参考PCB IO图：
 
-## 3.2 腿部偏差校准与传感器校准
+**舵机接线**
+||
+-------------|-------------|----------
+Sch.PWM3 TIM3_3 [D_LEG] 外舵机1|机体右 |Sch.PWM6 TIM4_2 [D_LEG] 外舵机2
+Sch.PWM2 TIM3_2 [X_LEG] 内舵机1| |Sch.PWM5 TIM4_1 [X_LEG] 内舵机2
+Sch.PWM1 TIM3_1 NS| |Sch.PWM4 TIM3_4 NS
+**机头**||机尾
+Sch.PWM7 TIM4_3 NS| |Sch.PWM10 TIM8_1 NS
+Sch.PWM8 TIM4_4 [X_LEG] 内舵机3| |Sch.PWM11 TIM8_2 [X_LEG] 内舵机4
+Sch.PWM9 TIM1_1 [D_LEG] 外舵机3|机体左 |PSch.WM12 TIM8_3 [D_LEG] 外舵机4
 
+### 3.1.3 连接电子模块和上板
+(1)将降压模块与电池仓焊接，注意输入输出关系和正负极，结果如下图所示:
+<div align=center><img width="540" height="460" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a7.jpg"/></div>
+
+(2)将降压模块通过XH2.8-8线进行连接，并将降压模块卡入底板后部卡槽，结果如下图所示:
+<div align=center><img width="540" height="460" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a8.jpg"/></div>
+
+(3)安装上板，将上板与降压模块和机臂卡槽对应安装，采用螺丝将上板与4个支撑铜柱固定，结果如下图所示：
+<div align=center><img width="540" height="460" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a9.jpg"/></div>
+
+## 3.2 腿部安装、偏差校准与IMU传感器校准
+(1)组装腿部支持结构，首先不连接足底3D打印件以方便后续腿部偏差安装，将舵机附带的齿轮臂与3D打印件组装并采用1.25mm螺丝固定防止滑落，结果如下图所示:
+<div align=center><img width="540" height="460" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a7.jpg"/></div>
+
+(2)连接下载器对机器人供电测试系统供电是否正常，DEBUG程序对腿部结构偏差进行校准：
+a.首先将vmc_demo.c 文件下force_dj_off_reset加入watch中并在DEBUG中置为1将舵机偏差复位。<br>
+b.将vmc_all.sita_test[4]置1此时舵机会被供电转动到默认偏差下的90°。<br>
+c.将安装好的大小腿以大约90°垂直舵机的方式进行安装，如下图所示：
+<div align=center><img width="540" height="460" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a7.jpg"/></div>
+d.修改vmc[i].param.PWM_OFF中的偏差参数，[0]对应外侧舵机角度[1]为内侧舵机通过调整参数和目视校准保证舵机90°绝对垂直，完成对4只角全部校准后用舵机配套螺丝固定轴承。<br>
+e.将mems.Gyro_CALIBRATE置为1，将当前标定后的偏差存储在FLASH中。<br>
+f.复位芯片查看读出的偏差是否一致
+<br>
+
+(3)校准IMU传感器，将机器人以电池仓水平放置进行传感器零偏校准，将mems.Gyro_CALIBRATE和mems.Acc_CALIBRATE分别置为1完成陀螺仪和加速度计的校准。<br>
+**注：对加速度的标定会觉得姿态解算0°在哪，而如果存在偏差会导致机器人移动稳定性出现移动中向左或右偏离。因此在后续对一些
+控制参数和舵机偏差标定进行FLASH保持时建议仅对mems.Gyro_CALIBRATE置1**
+<br>
+
+(4)安装足底3D打印件，如有足底传感器在控制板上连接对应传感器，最后完成整机的组装：
+<div align=center><img width="540" height="460" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a7.jpg"/></div>
 
 ## 3.3 移动测试
+(1)平地测试<br>
+在平地上进行移动测试，以验证步态算法逻辑，前进和旋转速度控制以及其他导航轨迹控制。<br>
 
+(2)前方上下台阶<br>
+从平地上一本书或多本书构成的台阶，以验证姿态控制和仿地跟随的能力。<br>
+
+(3)左右侧上下台阶<br>
+从平地上一本书或多本书构成的台阶，保证仅左侧或右侧两条腿上台阶，以验证横滚轴姿态控制稳定性。<br>
+
+(4)上斜坡高处下平台<br>
+从平地上15°~20°的斜坡，以验证步态对上坡抗打滑的能力，并直接从坡顶部直接下台阶以验证腿部突然不对称缩小下的不同调节能力。<br>
+
+(5)平台姿态自稳<br>
+将机器人放置于一个可倾斜的平台，通过人为倾斜来验证姿态控制的可靠性。<br>
 
 ## 3.4 使用STLink或正点原子无线下载器调试
+____使用下载器转接板与控制板进行连接，需要4P双头卡槽线、USB转接小板和大板以及一根micro USB线，连接后结果如下：
+<div align=center><img width="540" height="460" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a7.jpg"/></div>
+
+如采用正点原子无线下载器则请参考项目中附带的说明pdf文件，另外两种下载方式不可以同时使用。
 
 ## 3.5 高度和姿态Sin期望跟踪测试
+____足式机器人基础稳定最重要的同样是基于IMU实现姿态自稳，通过在DEBUG模式下修改gait_test[i]能实现给定高度、俯仰角的Sin轨迹进行跟踪，
+以验证控制器和参数的可靠性。通过在原地验证在再移动中验证可以看出不同步态算法的性能差距，在仅依靠舵机开环和无着地传感器前提下能实现的
+最优步态效果如下：<br>
+(1)不断跨腿下，机体高度能平滑变化<br>
+(2)不断跨腿下，俯仰角能平滑变化<br>
+(3)移动中同时实现上述过程<br>
+(4)在可倾斜板子上验证姿态平衡，板子倾斜机器人快速反应保证机体平衡<br>
+
+gait_test参数|说明
+-------------|-------------
+0|1高度______2俯仰角______3力矩测试
+2|角度增量
+3|幅值
+
+**注：力矩测试是为了验证力矩闭环是否能够保证足尖跟踪给定曲线通过调节vmc_all.pid[Zr][P]/[D]适用不同驱动系统，另外修改UART_UP_LOAD_SEL=1
+可在上位机上查看足尖期望反馈曲线**
 
 ## 3.6 参数调节
-
+### 3.6.1 参数介绍
 参数|说明|默认值
 -------------|-------------|-------------
 PID7-P|高度 内环P|500
@@ -153,7 +244,7 @@ PID8-D|高度 外环D|0
 PID12-P|高度 ADRC b0|15
 PID12-I||
 PID12-D|高度 ADRC 死区|10
-
+### 3.6.2 上位机回传数据
 
 ## 3.7 DEMO程序优化和后续开发建议
 ____DEMO程序为用户提供了一个最简单和四足机器人开发框架，包括了姿态解算和核心步态算法。所提供的步态算法以虚拟力为基础
@@ -205,24 +296,26 @@ void vmc_init(void)
 
 注：使用Demo程序需在vmc.h中定义#define USE_DEMO 1 否则默认使用数学库
 
-## 4.2 测试
+## 4.2 步态测试
+____采用VMC步态库时的测试方法与DEMO程序一样，同样可以进行Sin轨迹跟踪来测试步态性能的提升，另外更实际的方式是进行移动和
+上下坡测试，用户可以通过使用步态数量高度的书本搭建楼梯、坡和障碍物，在桌面或室内完成步态算法的验证和测试，或者构建一个竞技场
+与好友在后续图像自主控制中进行PK，如下图所示：
+
+<div align=center><img width="540" height="460" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a7.jpg"/></div>
+
 
 ## 4.3 参数调节
 
 参数|说明|默认值
 -------------|-------------|-------------
 PID7-P|高度 内环P|500
-PID7-I|高度 内环I|300
-PID7-D|高度 内环D|1680
-PID8-P|高度 外环P|1000
-PID8-I|高度 外环I|100
-PID8-D|高度 外环D|0
-PID12-P|高度 ADRC b0|15
-PID12-I||
-PID12-D|高度 ADRC 死区|10
 
 
 ## 4.4 将控制器用于其他四足机器人
+(1)足端轨迹输出<br> 
+如采用其他腿部构型的舵机驱动机器人可自行编程将vmc[i].epos转化为对应角度通过串口通信发送给用户的驱动控制器。<br>  
+(2)力矩输出<br> 
+如采用相同构型的无刷驱动机器人则可将vmc[i].torque力矩作为输出通过通讯发送给伺服驱动,同时通过调节vmc_all.gain_torque来进行力矩单位的匹配。
 
 ## 4.5 SDK开发
 ____机器人开发采用ROS框架机器人控制器将作为一个硬件节点解算顶层控制命令，对机体中心点的姿态、速度和位置进行控制，同时也可以
@@ -237,22 +330,9 @@ end_z|下降停止高度
 mode|模式 MODE_SPD：使用像素偏差  MODE_POS：使用估计的全局位置
 完成条件|达到下降高度
 
-<br><br>
-
-target_track_pan_task|前置云台目标跟踪
--------------|-------------
-target|目标图像信息结构体
-close_param|速度模式下为云台最小角度  位置模式下为离目标距离
-en_pitch|使能云台俯仰轴对准  
-en_yaw|使能飞行器航向对准
-close_mode|模式 MODE_SPD：使用像素偏差  MODE_POS：使用估计的全局位置
-完成条件|云台达到目标角度或飞行器离目标距离达到设定值
-
-<br><br>
-
 
 # 5 捐赠与项目后续开发计划
-____团队计划后期推出5kg级的足式机器人开发底盘，支持RPlidar激光雷达导航进行SLAM算法验证，能以相同的价格替代目前市面上同类的四轮小车平台如Autolabor等。
+____团队计划后期推出5kg~10kg级的足式机器人开发底盘，支持RPlidar激光雷达导航进行SLAM算法验证，能以相同的价格替代目前市面上同类的四轮小车平台如Autolabor等。
  <div align=center><img width="800" height="300" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/r1.jpg"/></div>
 ____如果您觉得该项目对您有帮助，也为了更好的项目推进和软硬件更新，如果愿意请通过微信捐赠该项目！
 <div align=center><img width="240" height="300" src="https://github.com/golaced/OLDX_DRONE_SIM/blob/rmd/support_file/img_file/pay.png"/></div>
