@@ -126,6 +126,19 @@ M2.5*5|8|固定控制器
 ### 3.1.2 安装控制板和舵机
 
 
+
+**舵机接线**
+||
+-------------|-------------|----------
+Sch.PWM3 TIM3_3 外舵机1|机体右 |Sch.PWM6 TIM4_2 外舵机2
+Sch.PWM2 TIM3_2 内舵机1| |Sch.PWM5 TIM4_1 内舵机2
+Sch.PWM1 TIM3_1 NS| |Sch.PWM4 TIM3_4 NS
+机头||机尾
+Sch.PWM7 TIM4_3 NS| |Sch.PWM10 TIM8_1 NS
+Sch.PWM8 TIM4_4 内舵机3| |Sch.PWM11 TIM8_2 内舵机4
+Sch.PWM9 TIM1_1 外舵机3|机体左 |PSch.WM12 TIM8_3 外舵机4
+
+
 ### 3.1.3 连接电子模块
 
 
