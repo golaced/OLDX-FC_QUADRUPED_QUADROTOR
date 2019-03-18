@@ -121,21 +121,26 @@ M2.5*5|8|固定控制器
 
 ## 3.1 机器人组装（官方机架）
 ### 3.1.1 机臂和中心体组装
-(1)组装机臂，其安装在中心体底部并且开关方向朝向后方，结果如下图所示：
-<div align=center><img width="540" height="460" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/fc.jpg"/></div>
+(1)组装机臂，需要2个机臂碳素片、半圆3D打印件、中心体3D打印支持件，注意机器人机臂需要具有5°的外扩角度，注意上板卡槽为T字，下标卡槽为L字，同时用2mm螺丝加固机臂，结果如下图所示：
+<div align=center><img width="540" height="460" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a1.jpg"/></div>
 
+(2)组装中心体，需要上下中心体碳素片、4个M3*32铜柱，首先将铜柱固定在底板上结果如下图所示：
+<div align=center><img width="540" height="460" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a2.jpg"/></div>
+
+(3)安装机臂，将四个机臂固定在下板卡槽上注意要用5°外扩，结果如下图所示：
+<div align=center><img width="540" height="460" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a3.jpg"/></div>
 
 ### 3.1.2 安装电池仓、控制板和舵机
 (1)首先安装电池仓，其安装在中心体底部并且开关方向朝向后方，结果如下图所示：
-<div align=center><img width="540" height="460" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/fc.jpg"/></div>
+<div align=center><img width="540" height="460" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a4.jpg"/></div>
 
-(2)安装舵机，舵机安装采用轴承在下的方式,并且外侧舵机轴承朝向机体内部，内侧舵机轴承超外以保证腿部移动时不会受机体阻碍，结果如下图所示:
-<div align=center><img width="540" height="460" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/fc.jpg"/></div>
+(2)安装舵机，舵机安装采用轴承在下的方式,并且外侧舵机轴承朝向机体内部，内侧舵机轴承超外以保证腿部移动时不会受机体阻碍，用2mm自锁螺丝固定在碳板上，结果如下图所示:
+<div align=center><img width="540" height="460" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a5.jpg"/></div>
 
 (3)安装控制板，将控制板安装在中心体上方，主要如没有安装控制器外壳则需要将控制器采用3D打印件垫高以防止电路板底部与碳板和电池仓估计螺丝短路，结果如下图所示:
-<div align=center><img width="540" height="460" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/fc.jpg"/></div>
+<div align=center><img width="540" height="460" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a6.jpg"/></div>
 
-(4)连接舵机线，从机臂内部将舵机线与控制板连接，具体连接顺序参照下标，另外注意PWM引脚朝向机体内部为5V供电即可，具体引脚供电顺序参考PCB IO图：
+(4)连接舵机线，从机臂内部绕线将舵机线与控制板连接，具体连接顺序参照下标，另外注意PWM引脚朝向机体内部为5V供电即可，具体引脚供电顺序参考PCB IO图：
 
 **舵机接线**
 ||
@@ -148,13 +153,37 @@ Sch.PWM7 TIM4_3 NS| |Sch.PWM10 TIM8_1 NS
 Sch.PWM8 TIM4_4 [X_LEG] 内舵机3| |Sch.PWM11 TIM8_2 [X_LEG] 内舵机4
 Sch.PWM9 TIM1_1 [D_LEG] 外舵机3|机体左 |PSch.WM12 TIM8_3 [D_LEG] 外舵机4
 
+### 3.1.3 连接电子模块和上板
+(1)将降压模块与电池仓焊接，注意输入输出关系和正负极，结果如下图所示:
+<div align=center><img width="540" height="460" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a7.jpg"/></div>
 
-### 3.1.3 连接电子模块
+(2)将降压模块通过XH2.8-8线进行连接，并将降压模块卡入底板后部卡槽，结果如下图所示:
+<div align=center><img width="540" height="460" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a8.jpg"/></div>
 
+(3)安装上板，将上板与降压模块和机臂卡槽对应安装，采用螺丝将上板与4个支撑铜柱固定，结果如下图所示：
+<div align=center><img width="540" height="460" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a9.jpg"/></div>
 
+## 3.2 腿部安装、偏差校准与IMU传感器校准
+(1)组装腿部支持结构，首先不连接足底3D打印件以方便后续腿部偏差安装，将舵机附带的齿轮臂与3D打印件组装并采用1.25mm螺丝固定防止滑落，结果如下图所示:
+<div align=center><img width="540" height="460" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a7.jpg"/></div>
 
-## 3.2 腿部偏差安装、校准与IMU传感器校准
+(2)连接下载器对机器人供电测试系统供电是否正常，DEBUG程序对腿部结构偏差进行校准：
+a.首先将vmc_demo.c 文件下force_dj_off_reset加入watch中并在DEBUG中置为1将舵机偏差复位。<br>
+b.将vmc_all.sita_test[4]置1此时舵机会被供电转动到默认偏差下的90°。<br>
+c.将安装好的大小腿以大约90°垂直舵机的方式进行安装，如下图所示：
+<div align=center><img width="540" height="460" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a7.jpg"/></div>
+d.修改vmc[i].param.PWM_OFF中的偏差参数，[0]对应外侧舵机角度[1]为内侧舵机通过调整参数和目视校准保证舵机90°绝对垂直，完成对4只角全部校准后用舵机配套螺丝固定轴承。<br>
+e.将mems.Gyro_CALIBRATE置为1，将当前标定后的偏差存储在FLASH中。<br>
+f.复位芯片查看读出的偏差是否一致
+<br>
 
+(3)校准IMU传感器，将机器人以电池仓水平放置进行传感器零偏校准，将mems.Gyro_CALIBRATE和mems.Acc_CALIBRATE分别置为1完成陀螺仪和加速度计的校准。<br>
+**注：对加速度的标定会觉得姿态解算0°在哪，而如果存在偏差会导致机器人移动稳定性出现移动中向左或右偏离。因此在后续对一些
+控制参数和舵机偏差标定进行FLASH保持时建议仅对mems.Gyro_CALIBRATE置1**
+<br>
+
+(4)安装足底3D打印件，如有足底传感器在控制板上连接对应传感器，最后完成整机的组装：
+<div align=center><img width="540" height="460" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a7.jpg"/></div>
 
 ## 3.3 移动测试
 
