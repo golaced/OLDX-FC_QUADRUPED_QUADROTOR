@@ -115,9 +115,13 @@ M1.4*4|8|固定齿轮
 M2.5*3|4|安装电池盒
 M2.5*5|8|固定控制器
 
-**-搭建该项目的方式-**<br>
+**-搭建该项目的方式-**
 
-
+方式|说明
+-------------|-------------
+整机购买|8
+机架打印+控制器购买|8
+机架打印+控制器制版加工|
 
 ## 3.1 机器人组装（官方机架）
 ### 3.1.1 机臂和中心体组装
@@ -277,14 +281,19 @@ void vmc_init(void)
 
 注：使用Demo程序需在vmc.h中定义#define USE_DEMO 1 否则默认使用数学库
 
-## 4.2 测试
+## 4.2 步态测试
+____采用VMC步态库时的测试方法与DEMO程序一样，同样可以进行Sin轨迹跟踪来测试步态性能的提升，另外更实际的方式是进行移动和
+上下坡测试，用户可以通过使用步态数量高度的书本搭建楼梯、坡和障碍物，在桌面或室内完成步态算法的验证和测试，或者构建一个竞技场
+与好友在后续图像自主控制中进行PK，如下图所示：
+
+<div align=center><img width="540" height="460" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a7.jpg"/></div>
+
 
 ## 4.3 参数调节
 
 参数|说明|默认值
 -------------|-------------|-------------
 PID7-P|高度 内环P|500
-
 
 
 ## 4.4 将控制器用于其他四足机器人
@@ -306,22 +315,9 @@ end_z|下降停止高度
 mode|模式 MODE_SPD：使用像素偏差  MODE_POS：使用估计的全局位置
 完成条件|达到下降高度
 
-<br><br>
-
-target_track_pan_task|前置云台目标跟踪
--------------|-------------
-target|目标图像信息结构体
-close_param|速度模式下为云台最小角度  位置模式下为离目标距离
-en_pitch|使能云台俯仰轴对准  
-en_yaw|使能飞行器航向对准
-close_mode|模式 MODE_SPD：使用像素偏差  MODE_POS：使用估计的全局位置
-完成条件|云台达到目标角度或飞行器离目标距离达到设定值
-
-<br><br>
-
 
 # 5 捐赠与项目后续开发计划
-____团队计划后期推出5kg级的足式机器人开发底盘，支持RPlidar激光雷达导航进行SLAM算法验证，能以相同的价格替代目前市面上同类的四轮小车平台如Autolabor等。
+____团队计划后期推出5kg~10kg级的足式机器人开发底盘，支持RPlidar激光雷达导航进行SLAM算法验证，能以相同的价格替代目前市面上同类的四轮小车平台如Autolabor等。
  <div align=center><img width="800" height="300" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/r1.jpg"/></div>
 ____如果您觉得该项目对您有帮助，也为了更好的项目推进和软硬件更新，如果愿意请通过微信捐赠该项目！
 <div align=center><img width="240" height="300" src="https://github.com/golaced/OLDX_DRONE_SIM/blob/rmd/support_file/img_file/pay.png"/></div>
