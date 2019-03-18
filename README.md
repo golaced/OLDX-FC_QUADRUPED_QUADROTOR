@@ -74,8 +74,8 @@ PWM 输出通道| 12通道输出
 无线下载|从左到右：GND SCK SWD 5V|接正点原子无线调试模块
 SWD|从左到右：GND SWD SCK 5V|接Stlink 转接板
 GPS|从左到右：5V RX2 TX2 SCL SDA GND|接MINIGPS
-足底传感器|从上到下： VCC GND AD1/SCL  KEY_GROUND/SDA|接压力/开关/震动/测距
-供电选择|水平挑帽 VCC从上到下：3.3V  5V|
+足底传感器|从上到下： VCC GND AD1/SCL1 KEY_GROUND1/SDA1|接压力/开关/震动/测距
+供电选择|水平跳帽从上到下：3.3V  5V|
 SBUS|从左到右：GND 5V Signal|天地飞接收机WBUS  Futaba SBUS接收机
 光流|从左到右: RX4 TX4 GND 5V|接光流传感器
 数传|从左到右: TX1 RX1 GND 5V|接匿名数传 
@@ -83,9 +83,9 @@ SBUS|从左到右：GND 5V Signal|天地飞接收机WBUS  Futaba SBUS接收机
 腿1|从左到右：GND VCC PWM   从上到下：外侧舵机  里侧舵机  机械臂/云台|舵机外部供电
 电源|从上到下：BEEP 舵机供电使能 GND GND 5V  VCC舵机  VCC舵机 VCC电池|电源模块 
 
-注：控制器机体为RGB LED方向，上表中仅给出腿1 舵机接口和传感器接口引脚顺序，其余三个腿为镜像对称的结构，
+**注：控制器机体为RGB LED方向，上表中仅给出腿1 舵机接口和传感器接口引脚顺序，其余三个腿为镜像对称的结构，
 即以腿2为例 从上到下为：外侧舵机  内侧舵机  云台  从左到右为：PWM VCC GND    腿2传感器 从上到下为：
-KEY_GROUND/SDA  AD2/SCL  GND  VCC
+KEY_GROUND2/SDA2  AD2/SCL2  GND  VCC**
 
 # 3 DEMO测试
 ____该项目免费提供了基础测试的3D打印机架能免费下载自行打印，官方将推出全碳版本的机架请
