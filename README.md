@@ -127,7 +127,7 @@ M2.5*5|8|固定控制器
 
 ## 3.1 机器人组装（官方机架）
 ### 3.1.1 机臂和中心体组装
-(1)组装机臂，需要2个机臂碳素片、半圆3D打印件、中心体3D打印支持件，注意机器人机臂需要具有5°的外扩角度，注意上板卡槽为T字，下标卡槽为L字，同时用2mm螺丝加固机臂，结果如下图所示：
+(1)组装机臂，需要2个机臂碳素片、半圆3D打印件、中心体3D打印支持件，注意机器人机臂需要具有5°的外扩角度，注意上板卡槽为L字，下板卡槽为T字，同时用2mm螺丝加固机臂，结果如下图所示：
 <div align=center><img width="540" height="260" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a1.jpg"/></div>
 <br>
 (2)组装中心体，需要上下中心体碳素片、4个M3*32铜柱，首先将铜柱固定在底板上。
@@ -137,7 +137,7 @@ M2.5*5|8|固定控制器
 
 ### 3.1.2 安装电池仓、控制板和舵机
 (1)首先安装电池仓，其安装在中心体底部并且开关方向朝向后方，结果如下图所示：
-<div align=center><img width="540" height="350" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a4.jpg"/></div>
+<div align=center><img width="540" height="380" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a4.jpg"/></div>
 <br>
 (2)安装舵机，舵机安装采用轴承在下的方式,并且外侧舵机轴承朝向机体内部，内侧舵机轴承超外以保证腿部移动时不会受机体阻碍，用2mm自锁螺丝固定在碳板上，结果如下图所示:
 <div align=center><img width="540" height="460" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a5.jpg"/></div>
