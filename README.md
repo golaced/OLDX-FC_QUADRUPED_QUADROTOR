@@ -128,12 +128,12 @@ M2.5*5|8|固定控制器
 ## 3.1 机器人组装（官方机架）
 ### 3.1.1 机臂和中心体组装
 (1)组装机臂，需要2个机臂碳素片、半圆3D打印件、中心体3D打印支持件，注意机器人机臂需要具有5°的外扩角度，注意上板卡槽为T字，下标卡槽为L字，同时用2mm螺丝加固机臂，结果如下图所示：
-<div align=center><img width="540" height="300" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a1.jpg"/></div>
+<div align=center><img width="540" height="260" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a1.jpg"/></div>
 <br>
 (2)组装中心体，需要上下中心体碳素片、4个M3*32铜柱，首先将铜柱固定在底板上。
 <br>
 (3)安装机臂，将四个机臂固定在下板卡槽上注意要用5°外扩，结果如下图所示：
-<div align=center><img width="540" height="300" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a3.jpg"/></div>
+<div align=center><img width="540" height="260" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a3.jpg"/></div>
 
 ### 3.1.2 安装电池仓、控制板和舵机
 (1)首先安装电池仓，其安装在中心体底部并且开关方向朝向后方，结果如下图所示：
@@ -165,7 +165,7 @@ Sch.PWM9 TIM1_1 [D_LEG] 外舵机3|机体左 |PSch.WM12 TIM8_3 [D_LEG] 外舵机
 <div align=center><img width="540" height="400" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a8.jpg"/></div>
 <br>
 (3)安装上板，将上板与降压模块和机臂卡槽对应安装，采用螺丝将上板与4个支撑铜柱固定，结果如下图所示：
-<div align=center><img width="540" height="220" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a9.jpg"/></div>
+<div align=center><img width="540" height="360" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a9.jpg"/></div>
 
 ## 3.2 腿部安装、偏差校准与IMU传感器校准
 (1)组装腿部支持结构，首先不连接足底3D打印件以方便后续腿部偏差安装，将舵机附带的齿轮臂与3D打印件组装并采用1.25mm螺丝固定防止滑落，结果如下图所示:
