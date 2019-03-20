@@ -190,7 +190,7 @@ f.复位芯片查看读出的偏差是否一致。
 <br>
 
 (4)安装足底3D打印件，如有足底传感器在控制板上连接对应传感器，最后完成整机的组装：
-<div align=center><img width="540" height="250" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a12.jpg"/></div>
+<div align=center><img width="480" height="250" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a12.jpg"/></div>
 
 ## 3.3 移动测试
 (1)平地测试<br>
