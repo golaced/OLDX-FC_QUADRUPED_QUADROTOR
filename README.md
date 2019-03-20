@@ -185,12 +185,12 @@ f.复位芯片查看读出的偏差是否一致。
 <br>
 
 (3)校准IMU传感器，将机器人以电池仓水平放置进行传感器零偏校准，将mems.Gyro_CALIBRATE和mems.Acc_CALIBRATE分别置为1完成陀螺仪和加速度计的校准。<br>
-**注：对加速度的标定会觉得姿态解算0°在哪，而如果存在偏差会导致机器人移动稳定性出现移动中向左或右偏离。因此在后续对一些
+**注： 对加速度的标定会觉得姿态解算0°在哪，而如果存在偏差会导致机器人移动稳定性出现移动中向左或右偏离。因此在后续对一些
 控制参数和舵机偏差标定进行FLASH保持时建议仅对mems.Gyro_CALIBRATE置1**
 <br>
 
 (4)安装足底3D打印件，如有足底传感器在控制板上连接对应传感器，最后完成整机的组装：
-<div align=center><img width="540" height="460" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a12.jpg"/></div>
+<div align=center><img width="540" height="250" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a12.jpg"/></div>
 
 ## 3.3 移动测试
 (1)平地测试<br>
