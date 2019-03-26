@@ -343,7 +343,7 @@ ____采用VMC步态库时的测试方法与DEMO程序一样，同样可以进行
 上下坡测试，用户可以通过使用步态数量高度的书本搭建楼梯、坡和障碍物，在桌面或室内完成步态算法的验证和测试，或者构建一个竞技场
 与好友在后续图像自主控制中进行PK，如下图所示：
 
-<div align=center><img width="220" height="220" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/playground.jpg"/></div>
+<div align=center><img width="440" height="220" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/playground.jpg"/></div>
 
 
 ## 4.3 参数调节
