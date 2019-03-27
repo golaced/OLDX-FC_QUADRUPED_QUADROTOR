@@ -143,7 +143,7 @@ M2.5将其与树莓派固定，将CSI排线从外壳对应槽中引出。
 
 (2)安装控制器：<br>
 将控制器NRF天线从底壳壁上对应圆孔引出，将其按正确朝向安装于树莓派上，注意控制板上只有4P母口其**顶头引脚并非对应树莓派顶头引脚**而且排针为外侧，正确安装应该如下图所示：
-<div align=center><img width="540" height="400" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/pi2.jpg"/></div>
+<div align=center><img width="540" height="360" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/pi2.jpg"/></div>
 <br>
 
 (3)安装上盖：<br>
@@ -168,7 +168,7 @@ M2.5将其与树莓派固定，将CSI排线从外壳对应槽中引出。
 (2)安装舵机，舵机安装采用轴承在下的方式,并且外侧舵机轴承朝向机体内部，内侧舵机轴承超外以保证腿部移动时不会受机体阻碍，用2mm自锁螺丝固定在碳板上，结果如下图所示:
 <div align=center><img width="540" height="460" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a5.jpg"/></div>
 <br>
-(3)安装控制板，将控制板安装在中心体上方，主要如没有安装控制器外壳则需要将控制器采用3D打印件垫高以防止电路板底部与碳板和电池仓估计螺丝短路，结果如下图所示:
+(3)安装控制板，将控制板安装在中心体上方(**推荐用带锁3M胶或魔术贴方便后续SD卡更换**)，主要如没有安装控制器外壳则需要将控制器采用3D打印件垫高以防止电路板底部与碳板和电池仓估计螺丝短路，结果如下图所示:
 <div align=center><img width="540" height="460" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a6.jpg"/></div>
 <br>
 (4)连接舵机线，从机臂内部绕线将舵机线与控制板连接，具体连接顺序参照下标，另外注意PWM引脚朝向机体内部为5V供电即可，具体引脚供电顺序参考PCB IO图：
