@@ -223,7 +223,7 @@ f.复位芯片查看读出的偏差是否一致。
 <br>
 
 (4)安装足底3D打印件，如有足底传感器在控制板上连接对应传感器,如果没有则默认采用减震足底，将15*8mm的圆形软垫剪成半圆并排黏贴至底部，如下图所示：
-<div align=center><img width="480" height="250" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/leg_end.jpg"/></div>
+<div align=center><img width="480" height="400" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/leg_end.jpg"/></div>
 
 **注意足底安装时4个足底的斜尖端都要朝向机头！！！**，最后完成整机的组装:
 <div align=center><img width="480" height="250" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a12.jpg"/></div>
