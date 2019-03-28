@@ -193,7 +193,17 @@ Sch.PWM9 TIM1_1 [D_LEG] 外舵机3|机体左 |PSch.WM12 TIM8_3 [D_LEG] 外舵机
 (3)安装上板，将上板与降压模块和机臂卡槽对应安装，采用螺丝将上板与4个支撑铜柱固定，结果如下图所示：
 <div align=center><img width="540" height="360" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a9.jpg"/></div>
 
+
+
+
+
 ## 3.3 腿部安装、偏差校准与IMU传感器校准（**十分重要**）
+<br>**视频教程链接：https://www.bilibili.com/video/av47485521** <br>
+
+**注意！！！：由于IMU采用软线与控制板连接不牢固或被挤压下会出现SPI通讯错误，因此电路板正常工作时module.flash和module.nrf都为1且
+控制器平放下mems中加速度原始值约为[0 0 4096]左右，如不正常请断电重新连接排线DEBUG确认。另外电路板上电后如果为PX4开机声则90%以上
+几率是正常此时只需要检查mems传感器数据是否有错误跳动！！**
+
 (1)组装腿部支持结构，首先不连接足底3D打印件以方便后续腿部偏差安装，将舵机附带的齿轮臂与3D打印件组装并采用1.25mm螺丝固定防止滑落，结果如下图所示:
 <div align=center><img width="540" height="300" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a10.JPG"/></div>
 <br>
@@ -212,7 +222,10 @@ f.复位芯片查看读出的偏差是否一致。
 控制参数和舵机偏差标定进行FLASH保持时建议仅对mems.Gyro_CALIBRATE置1**
 <br>
 
-(4)安装足底3D打印件，如有足底传感器在控制板上连接对应传感器，最后完成整机的组装：
+(4)安装足底3D打印件，如有足底传感器在控制板上连接对应传感器,如果没有则默认采用减震足底，将15*8mm的圆形软垫剪成半圆并排黏贴至底部，如下图所示：
+<div align=center><img width="480" height="250" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/leg_end.jpg"/></div>
+
+**注意足底安装时4个足底的斜尖端都要朝向机头！！！**，最后完成整机的组装:
 <div align=center><img width="480" height="250" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/a12.jpg"/></div>
 
 
