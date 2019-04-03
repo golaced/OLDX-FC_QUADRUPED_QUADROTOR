@@ -312,7 +312,13 @@ ____将机器人放置于一个可倾斜的平台，通过人为倾斜来验证�
 ____使用下载器转接板与控制板进行连接，需要4P双头卡槽线、USB转接小板和大板以及一根micro USB线，连接后结果如下：
 <div align=center><img width="500" height="460" src="https://github.com/golaced/OLDX-FC_QUADRUPED_QUADROTOR/blob/rmd/support_file/img_file1/download.jpg"/></div>
 
-如采用正点原子无线下载器则请参考项目中附带的说明pdf文件，另外两种下载方式不可以同时使用。
+如采用正点原子无线下载器则请参考项目中附带的说明pdf文件，另外两种下载方式不可以同时使用。<br>
+
+**注：KEIL5相关软件和芯片库下载：**<br>
+```
+链接：https://pan.baidu.com/s/1UNnMhOecPHUjdAQqanoYLQ 
+提取码：az23 
+```
 
 ## 3.7 高度和姿态Sin期望跟踪测试
 ____足式机器人基础稳定最重要的同样是基于IMU实现姿态自稳，通过在DEBUG模式下修改gait_test[i]能实现给定高度、俯仰角的Sin轨迹进行跟踪，
