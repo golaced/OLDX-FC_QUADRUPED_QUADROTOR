@@ -494,7 +494,7 @@ ____如果您觉得该项目对您有帮助，也为了更好的项目推进和�
 <div align=center><img width="440" height="300" src="https://github.com/golaced/OLDX_DRONE_SIM/blob/master/support_file/img_file/pay.png"/></div>
 
 代码版本|开源代码说明|闭源VMC库说明
--------------|--------------
+-------------|--------------|-------------
 Publish Ver1.0|(1)虚拟力基础步态<br>  (2)梯度下降姿态解算<br>  (3)NRF射频通讯遥控<br>  (4)UCOS操作系统
 	          |(1)虚拟力+IMU自稳<br>  (2)动态步态+姿态调节
 Publish Ver1.1|(1)SDK开发    
