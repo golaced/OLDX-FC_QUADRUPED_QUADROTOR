@@ -1,5 +1,0 @@
--c --cpu Cortex-M3 -g -W -O0 --apcs=interwork -I..\..\Libraries\CMSIS -I..\..\User -I..\..\Libraries\FWlib\inc -I..\..\User\usart -I..\..\User\LD3320 -I..\..\User\USB\CONFIG -I..\..\User\USB\STM32_USB-FS-Device_Driver\inc 
--I d:\Keil_v4\ARM\RV31\INC 
--I d:\Keil_v4\ARM\CMSIS\Include 
--I d:\Keil_v4\ARM\Inc\ST\STM32F10x 
--DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER -o "..\..\Output\nrf.o" --omf_browse "..\..\Output\nrf.crf" --depend "..\..\Output\nrf.d" "..\..\User\usart\nrf.c"

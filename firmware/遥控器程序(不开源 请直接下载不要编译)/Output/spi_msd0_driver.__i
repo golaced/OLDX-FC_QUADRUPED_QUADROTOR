@@ -1,5 +1,0 @@
--c --cpu Cortex-M3 -g -W -O0 --apcs=interwork -I..\..\Libraries\CMSIS -I..\..\User -I..\..\Libraries\FWlib\inc -I..\..\User\usart -I..\..\User\LD3320 
--I d:\Keil_v4\ARM\RV31\INC 
--I d:\Keil_v4\ARM\CMSIS\Include 
--I d:\Keil_v4\ARM\Inc\ST\STM32F10x 
--DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER -o "..\..\Output\spi_msd0_driver.o" --omf_browse "..\..\Output\spi_msd0_driver.crf" --depend "..\..\Output\spi_msd0_driver.d" "..\..\User\fatfs\SPI_MSD0_Driver.c"
