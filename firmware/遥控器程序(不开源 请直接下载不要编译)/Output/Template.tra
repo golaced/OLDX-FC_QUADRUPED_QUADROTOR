@@ -1,0 +1,77 @@
+*** Creating Trace Output File '..\..\Output\Template.tra' Ok.
+### Preparing for ADS-LD.
+### Creating ADS-LD Command Line
+### List of Objects: adding '"..\..\output\startup_stm32f10x_hd.o"'
+### List of Objects: adding '"..\..\output\core_cm3.o"'
+### List of Objects: adding '"..\..\output\system_stm32f10x.o"'
+### List of Objects: adding '"..\..\output\misc.o"'
+### List of Objects: adding '"..\..\output\stm32f10x_adc.o"'
+### List of Objects: adding '"..\..\output\stm32f10x_bkp.o"'
+### List of Objects: adding '"..\..\output\stm32f10x_can.o"'
+### List of Objects: adding '"..\..\output\stm32f10x_cec.o"'
+### List of Objects: adding '"..\..\output\stm32f10x_crc.o"'
+### List of Objects: adding '"..\..\output\stm32f10x_dac.o"'
+### List of Objects: adding '"..\..\output\stm32f10x_dbgmcu.o"'
+### List of Objects: adding '"..\..\output\stm32f10x_dma.o"'
+### List of Objects: adding '"..\..\output\stm32f10x_exti.o"'
+### List of Objects: adding '"..\..\output\stm32f10x_flash.o"'
+### List of Objects: adding '"..\..\output\stm32f10x_fsmc.o"'
+### List of Objects: adding '"..\..\output\stm32f10x_gpio.o"'
+### List of Objects: adding '"..\..\output\stm32f10x_i2c.o"'
+### List of Objects: adding '"..\..\output\stm32f10x_iwdg.o"'
+### List of Objects: adding '"..\..\output\stm32f10x_pwr.o"'
+### List of Objects: adding '"..\..\output\stm32f10x_rcc.o"'
+### List of Objects: adding '"..\..\output\stm32f10x_rtc.o"'
+### List of Objects: adding '"..\..\output\stm32f10x_sdio.o"'
+### List of Objects: adding '"..\..\output\stm32f10x_spi.o"'
+### List of Objects: adding '"..\..\output\stm32f10x_tim.o"'
+### List of Objects: adding '"..\..\output\stm32f10x_usart.o"'
+### List of Objects: adding '"..\..\output\stm32f10x_wwdg.o"'
+### List of Objects: adding '"..\..\output\main.o"'
+### List of Objects: adding '"..\..\output\stm32f10x_it.o"'
+### List of Objects: adding '"..\..\output\usart.o"'
+### List of Objects: adding '"..\..\output\data_transfer.o"'
+### List of Objects: adding '"..\..\output\delay.o"'
+### List of Objects: adding '"..\..\output\nrf.o"'
+### List of Objects: adding '"..\..\output\spi.o"'
+### List of Objects: adding '"..\..\output\adc.o"'
+### List of Objects: adding '"..\..\output\key.o"'
+### List of Objects: adding '"..\..\output\mpu9250.o"'
+### List of Objects: adding '"..\..\output\imu.o"'
+### List of Objects: adding '"..\..\output\fastmath.o"'
+### List of Objects: adding '"..\..\output\filter.o"'
+### List of Objects: adding '"..\..\output\mymath.o"'
+### List of Objects: adding '"..\..\output\flash.o"'
+### List of Objects: adding '"..\..\output\rc_mine.o"'
+### List of Objects: adding '"..\..\output\oled.o"'
+### List of Objects: adding '"..\..\output\gui_basic.o"'
+### List of Objects: adding '"..\..\output\beep.o"'
+### List of Objects: adding '"..\..\output\timer.o"'
+### List of Objects: adding '"..\..\output\hw_config.o"'
+### List of Objects: adding '"..\..\output\usb_desc.o"'
+### List of Objects: adding '"..\..\output\usb_endp.o"'
+### List of Objects: adding '"..\..\output\usb_istr.o"'
+### List of Objects: adding '"..\..\output\usb_prop.o"'
+### List of Objects: adding '"..\..\output\usb_pwr.o"'
+### List of Objects: adding '"..\..\output\usb_core.o"'
+### List of Objects: adding '"..\..\output\usb_init.o"'
+### List of Objects: adding '"..\..\output\usb_int.o"'
+### List of Objects: adding '"..\..\output\usb_mem.o"'
+### List of Objects: adding '"..\..\output\usb_regs.o"'
+### List of Objects: adding '"..\..\output\usb_sil.o"'
+### ADS-LD Command completed:
+--cpu Cortex-M3 "..\..\output\startup_stm32f10x_hd.o" "..\..\output\core_cm3.o" "..\..\output\system_stm32f10x.o" "..\..\output\misc.o" "..\..\output\stm32f10x_adc.o" "..\..\output\stm32f10x_bkp.o" "..\..\output\stm32f10x_can.o" "..\..\output\stm32f10x_cec.o" "..\..\output\stm32f10x_crc.o" "..\..\output\stm32f10x_dac.o" "..\..\output\stm32f10x_dbgmcu.o" "..\..\output\stm32f10x_dma.o" "..\..\output\stm32f10x_exti.o" "..\..\output\stm32f10x_flash.o" "..\..\output\stm32f10x_fsmc.o" "..\..\output\stm32f10x_gpio.o" "..\..\output\stm32f10x_i2c.o" "..\..\output\stm32f10x_iwdg.o" "..\..\output\stm32f10x_pwr.o" "..\..\output\stm32f10x_rcc.o" "..\..\output\stm32f10x_rtc.o" "..\..\output\stm32f10x_sdio.o" "..\..\output\stm32f10x_spi.o" "..\..\output\stm32f10x_tim.o" "..\..\output\stm32f10x_usart.o" "..\..\output\stm32f10x_wwdg.o" "..\..\output\main.o" "..\..\output\stm32f10x_it.o" "..\..\output\usart.o" "..\..\output\data_transfer.o" "..\..\output\delay.o" "..\..\output\nrf.o" "..\..\output\spi.o" "..\..\output\adc.o" "..\..\output\key.o" "..\..\output\mpu9250.o" "..\..\output\imu.o" "..\..\output\fastmath.o" "..\..\output\filter.o" "..\..\output\mymath.o" "..\..\output\flash.o" "..\..\output\rc_mine.o" "..\..\output\oled.o" "..\..\output\gui_basic.o" "..\..\output\beep.o" "..\..\output\timer.o" "..\..\output\hw_config.o" "..\..\output\usb_desc.o" "..\..\output\usb_endp.o" "..\..\output\usb_istr.o" "..\..\output\usb_prop.o" "..\..\output\usb_pwr.o" "..\..\output\usb_core.o" "..\..\output\usb_init.o" "..\..\output\usb_int.o" "..\..\output\usb_mem.o" "..\..\output\usb_regs.o" "..\..\output\usb_sil.o" 
+--strict --scatter "..\..\Output\Template.sct" 
+--summary_stderr --info summarysizes --map --xref --callgraph --symbols 
+--info sizes --info totals --info unused --info veneers 
+ --list "..\..\Listing\Template.map" -o ..\..\Output\Template.axf### Preparing Environment (PrepEnvAds)
+### ADS-LD Output File: '..\..\Output\Template.axf'
+### ADS-LD Command File: '..\..\Output\Template.lnp'
+### Checking for dirty Components...
+### Creating CmdFile '..\..\Output\Template.lnp', Handle=0x00000384
+### Writing '.lnp' file
+### ADS-LD Command file '..\..\Output\Template.lnp' is ready.
+### ADS-LD: About to start ADS-LD Thread.
+### ADS-LD: executed with 0 errors
+### Updating obj list
+### LDADS_file() completed.
