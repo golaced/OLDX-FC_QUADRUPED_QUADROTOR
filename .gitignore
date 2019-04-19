@@ -23,7 +23,7 @@
 
 
 # Executables
-*.exe
+
 *.out
 *.app
 
