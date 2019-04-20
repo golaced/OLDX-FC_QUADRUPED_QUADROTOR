@@ -9,24 +9,15 @@
 #include "eso.h"
 #include "rc_mine.h"
 #include "vmc.h"
-_DRONE drone;
+#include "nav.h"
 MOUDLE module;
-#define RX_DR			6	
-#define TX_DS			5
-#define MAX_RT		4
-int RX_CH_FIX_NRF[8]={0};
 int PARAM_NRF[18][3];
-u8 cnt_rst=0,delta_pitch=0,delta_roll=0,delta_yew=0;
-u8 send_pid=0,read_pid=0;;
-u16 data_rate;
-#define MID_RC_KEY 15
-#define MID_RC_GET 4
-u8 key_rc_reg[7][MID_RC_KEY];
-float RC_GET[4][MID_RC_GET];
-float control_scale=1;
-float ypr_sb[3];
 u8 KEY[8];
 RC_GETDATA Rc_Get;
+u8 send_pid=0,read_pid=0;;
+u16 data_rate;
+u8 key_rc_reg[7][MID_RC_KEY];
+float RC_GET[4][MID_RC_GET];
 void NRF_DataAnl(void)
 { 
 
@@ -39,7 +30,7 @@ u8 temp;
 		return;
 		}	 
 	if(NRF24L01_RXDATA[0]==0x01)								
-	{ //Feed_Rc_Dog(2);
+	{ 
 		module.nrf=2;
 		data_rate++;
 		Rc_Get.THROTTLE = (vs16)(NRF24L01_RXDATA[1]<<8)|NRF24L01_RXDATA[2];
@@ -57,13 +48,6 @@ u8 temp;
 		KEY[2]=(NRF24L01_RXDATA[19]>>2)&0x01;
 		KEY[3]=(NRF24L01_RXDATA[19]>>3)&0x01;
 		KEY[4]=(NRF24L01_RXDATA[19]>>4)&0x01;
-
-//		mpu6050_fc.Acc_CALIBRATE=NRF24L01_RXDATA[20]>>1&&0x01;
-//		mpu6050_fc.Gyro_CALIBRATE=NRF24L01_RXDATA[20]&&0x01;
-//		if(mpu6050_fc.Acc_CALIBRATE==0&&mpu6050_fc.Acc_CALIBRATE==1)
-//			 mpu6050_fc.Acc_CALIBRATE=1;
-//		if(mpu6050_fc.Gyro_CALIBRATE==0&&mpu6050_fc.Gyro_CALIBRATE==1)
-//			 mpu6050_fc.Gyro_CALIBRATE=1;
 		
 		temp=NRF24L01_RXDATA[21];
 		if(temp==1)
@@ -150,22 +134,11 @@ u8 temp;
 		PARAM_NRF[17][1]	= (vs16)(NRF24L01_RXDATA[15]<<8)|NRF24L01_RXDATA[16];
 		PARAM_NRF[17][2]	= (vs16)(NRF24L01_RXDATA[17]<<8)|NRF24L01_RXDATA[18];
 
-//		PARAM[13][0] = (vs16)(NRF24L01_RXDATA[19]<<8)|NRF24L01_RXDATA[20];
-//		PARAM[13][1]	= (vs16)(NRF24L01_RXDATA[21]<<8)|NRF24L01_RXDATA[22];
-//		PARAM[13][2]	= (vs16)(NRF24L01_RXDATA[23]<<8)|NRF24L01_RXDATA[24];
-//		
-//		PARAM[14][0] = (vs16)(NRF24L01_RXDATA[25]<<8)|NRF24L01_RXDATA[26];
-//		PARAM[14][1]	= (vs16)(NRF24L01_RXDATA[27]<<8)|NRF24L01_RXDATA[28];
-//		PARAM[14][2]	= (vs16)(NRF24L01_RXDATA[29]<<8)|NRF24L01_RXDATA[30];
 		send_pid=1;
 	}
-	
-	
 }
 
 
-int cnt_timer2_r=0;
-u8 cnt_led_rx=0;
 void Nrf_Check_Event(void)
 { 
 	u8 rx_len =0;
@@ -173,7 +146,7 @@ void Nrf_Check_Event(void)
 	u8 sta;
 
 	sta= NRF_Read_Reg(NRF_READ_REG + NRFRegSTATUS);		
-	if(sta & (1<<RX_DR))	//??ing 
+	if(sta & (1<<RX_DR))	 
 	{ 
 		cnt_loss_rc=0;
 			
@@ -187,27 +160,21 @@ void Nrf_Check_Event(void)
 				{ 
 					NRF_Write_Reg(FLUSH_RX,0xff );
 				}
-				if(cnt_led_rx<2)
-				cnt_led_rx++;
-				else 
-				{
-				cnt_led_rx=0;
-				}
-	}
+		}
 	else//---------losing_nrf
 	 {	
 		 if(cnt_loss_rc++>200 )//0.5ms
 		 {	
-			 NRF_Write_Reg(FLUSH_RX,0xff);//?????
+			 NRF_Write_Reg(FLUSH_RX,0xff);
 
 		 }
   }
-	if(sta & (1<<TX_DS))	//????,?????
+	if(sta & (1<<TX_DS))	
 	{
 	
 	}
 
-	if(sta & (1<<MAX_RT))//??,????
+	if(sta & (1<<MAX_RT))
 	{
 		if(sta & 0x01)	//TX FIFO FULL
 		{
@@ -217,7 +184,7 @@ void Nrf_Check_Event(void)
 	NRF_Write_Reg(NRF_WRITE_REG + NRFRegSTATUS, sta);
 }
 
-
+u8 view_plan=0;
 void NRF_Send1(void)
 {	vs16 _temp;	u8 _cnt=0;u8 i;u8 sum = 0;
 
@@ -233,48 +200,42 @@ void NRF_Send1(void)
 	NRF24L01_TXDATA[_cnt++]=BYTE1(_temp);
 	NRF24L01_TXDATA[_cnt++]=BYTE0(_temp);
 
-	_temp =  drone.spd[Xr]*100;	
+	_temp =  nav.spd_b[Xr]*100;	
 	NRF24L01_TXDATA[_cnt++]=BYTE1(_temp);
 	NRF24L01_TXDATA[_cnt++]=BYTE0(_temp);
-	_temp =  drone.spd[Yr]*100;	
+	_temp =  nav.spd_b[Yr]*100;	
 	NRF24L01_TXDATA[_cnt++]=BYTE1(_temp);
 	NRF24L01_TXDATA[_cnt++]=BYTE0(_temp);
-	_temp =  drone.spd[Zr]*100;	
+	_temp =  nav.spd_b[Zr]*100;	
 	NRF24L01_TXDATA[_cnt++]=BYTE1(_temp);
 	NRF24L01_TXDATA[_cnt++]=BYTE0(_temp);
-	#if defined(POS_FUSION_TEST)
-	if(KEY[1])
-	_temp =  (0);//circle.cx;
-	else
-	_temp =  drone.pos[Xr]*100;	
+	if(mission_state==2&&view_plan)
+	{
+	_temp =  traj[0].pt[Xr]*100;
 	NRF24L01_TXDATA[_cnt++]=BYTE1(_temp);
 	NRF24L01_TXDATA[_cnt++]=BYTE0(_temp);
-  if(KEY[1])
-	_temp = (0);// circle.cy;
-	else
-	_temp =  drone.pos[Yr]*100;	
+	_temp =  traj[0].pt[Yr]*100;
 	NRF24L01_TXDATA[_cnt++]=BYTE1(_temp);
 	NRF24L01_TXDATA[_cnt++]=BYTE0(_temp);
-	#else
-	_temp =  drone.pos[Xr]*100;	
+	}else{
+	_temp =  nav.pos_n[Xr]*100;	
 	NRF24L01_TXDATA[_cnt++]=BYTE1(_temp);
 	NRF24L01_TXDATA[_cnt++]=BYTE0(_temp);
-	_temp =  drone.pos[Yr]*100;	
+	_temp =  nav.pos_n[Yr]*100;	
 	NRF24L01_TXDATA[_cnt++]=BYTE1(_temp);
 	NRF24L01_TXDATA[_cnt++]=BYTE0(_temp);
-	#endif
-	_temp =  0*100;//drone.pos[Z]*100;	
+	}
+	_temp =  nav.pos_n[Zr]*100;	
 	NRF24L01_TXDATA[_cnt++]=BYTE1(_temp);
 	NRF24L01_TXDATA[_cnt++]=BYTE0(_temp);
 	
 	_temp =  0;//flow_5a.quality;	
 	NRF24L01_TXDATA[_cnt++]=BYTE0(_temp);
 	NRF24L01_TXDATA[_cnt++]=BYTE0(fly_ready);
-  NRF24L01_TXDATA[_cnt++]=BYTE0(drone.fly_mode);
-	NRF24L01_TXDATA[_cnt++]= 0;//BYTE0(0);
-	NRF24L01_TXDATA[_cnt++]=BYTE0(drone.acc_3d_step);  
-	drone.bat=bat.percent;
-	_temp =  drone.bat*100;	
+  NRF24L01_TXDATA[_cnt++]=BYTE0(vmc_all.param.control_mode_all);
+	NRF24L01_TXDATA[_cnt++]=BYTE0(mission_flag);
+	NRF24L01_TXDATA[_cnt++]= 0;//BYTE0(drone.acc_3d_step);  
+	_temp =  bat.percent*100;	
 	NRF24L01_TXDATA[_cnt++]=BYTE1(_temp);
 	NRF24L01_TXDATA[_cnt++]=BYTE0(_temp);
 	_temp=0;
@@ -318,11 +279,10 @@ void NRF_Send3(void)
 	NRF24L01_TXDATA[_cnt++] = 3;	
 	
 	NRF24L01_TXDATA[_cnt++]=BYTE0(fly_ready);
-  NRF24L01_TXDATA[_cnt++]=BYTE0(drone.fly_mode);
-	NRF24L01_TXDATA[_cnt++]= 0;//BYTE0(0);
-	NRF24L01_TXDATA[_cnt++]=BYTE0(drone.acc_3d_step);  
-	drone.bat=bat.percent;
-	_temp =  drone.bat*100;	
+  NRF24L01_TXDATA[_cnt++]=BYTE0(vmc_all.param.control_mode_all);
+	NRF24L01_TXDATA[_cnt++]=BYTE0(mission_flag);
+	NRF24L01_TXDATA[_cnt++]= 0;//BYTE0(drone.acc_3d_step);  
+	_temp =  bat.percent*100;	
 	NRF24L01_TXDATA[_cnt++]=BYTE1(_temp);
 	NRF24L01_TXDATA[_cnt++]=BYTE0(_temp);
 	for(i=0;i<4;i++){//24
@@ -353,7 +313,6 @@ void NRF_Send4(void)
 		}
 	}
 	
-
 	for( i=0;i<31;i++)
 		sum += NRF24L01_TXDATA[i];
 	NRF24L01_TXDATA[31] = sum;
@@ -374,7 +333,6 @@ void NRF_Send5(void)
 		}
 	}
 	
-
 	for( i=0;i<31;i++)
 		sum += NRF24L01_TXDATA[i];
 	NRF24L01_TXDATA[31] = sum;
@@ -395,7 +353,6 @@ void NRF_Send6(void)
 		}
 	}
 	
-
 	for( i=0;i<31;i++)
 		sum += NRF24L01_TXDATA[i];
 	NRF24L01_TXDATA[31] = sum;
@@ -407,10 +364,6 @@ void RC_Send_Task(void)
 static u8 cnt[5]={0};
 	if(cnt[0]++>10)
 	 cnt[0]=0;
-	
-
-	
-	
 if(send_pid||read_pid){
 	if(read_pid)
 		pid_copy_param();
@@ -521,7 +474,6 @@ void param_copy_pid(void){
 //	robot_land.k_f					 = 0.001*PARAM[17][0];
 //	LENGTH_OF_DRONE=    						 PARAM[17][1];
 //	UART_UP_LOAD_SEL_FORCE=          PARAM[17][2];
-
 }
 
 
@@ -604,5 +556,4 @@ void pid_copy_param(void){
 //	PARAM[17][0]=robot_land.k_f				*1000;
 //	PARAM[17][1]=LENGTH_OF_DRONE;
 //	PARAM[17][2]=UART_UP_LOAD_SEL_FORCE;
-
 }

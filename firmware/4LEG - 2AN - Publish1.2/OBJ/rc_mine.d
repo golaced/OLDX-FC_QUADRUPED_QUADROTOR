@@ -60,3 +60,4 @@
 ..\obj\rc_mine.o: ..\HARDWARE\IIC\usart_fc.h
 ..\obj\rc_mine.o: ..\HARDWARE\IIC\eso.h
 ..\obj\rc_mine.o: ..\HARDWARE\IIC\vmc.h
+..\obj\rc_mine.o: ..\HARDWARE\NAV2\nav.h

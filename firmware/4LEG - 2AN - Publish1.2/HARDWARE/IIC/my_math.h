@@ -39,5 +39,29 @@ typedef struct
 }ESO_X;
 void OLDX_SMOOTH_IN_ESOX(ESO_X *eso_in,float in);
 
+
+typedef struct
+{
+ float pt[3];
+ float vt[3];
+ float at[3];
+ float ps[3];
+ float vs[3];
+ float as[3];
+ float pe[3];
+ float ve[3];
+ float ae[3];
+ float param[10];
+ float Time,time_now,Dis;
+ float cost,cost_all;
+ float traj_pre_d;
+ char defined[3];
+	
+}_TRA;
+
+extern _TRA traj[10];
+
+void plan_tra(_TRA *tra);
+void get_tra(_TRA *tra,float t);
 #endif
 

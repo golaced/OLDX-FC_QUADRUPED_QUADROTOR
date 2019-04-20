@@ -1,13 +1,5 @@
 /**********************************************************************************************************
-                                天穹飞控 —— 致力于打造中国最好的多旋翼开源飞控
-                                Github: github.com/loveuav/BlueSkyFlightControl
-                                技术讨论：bbs.loveuav.com/forum-68-1.html
- * @文件     ms5611.c
- * @说明     MS5611气压传感器驱动
- * @版本  	 V1.0
- * @作者     BlueSky
- * @网站     bbs.loveuav.com
- * @日期     2018.05 
+                                本程序移植于：			天穹飞控
 **********************************************************************************************************/
 #include "ms5611.h"
 #include "spi.h"
@@ -41,7 +33,7 @@ uint8_t Spi_SingleWirteAndRead(uint8_t deviceNum, uint8_t dat)
         return SPI_I2S_ReceiveData(SPI2);             
 }
 
-//50hz  2hz
+//50hz  2hz 
 const static float b_baro_pressure[3]={0.01335920002786,  0.02671840005571,  0.01335920002786};
 const static float a_baro_pressure[3]={1,   -1.647459981077,   0.7008967811884};
 float LPButter_BaroAlt(float curr_input)
@@ -218,27 +210,44 @@ static void MS5611_Start_P(void)
 *形    参: 无
 *返 回 值: 无
 **********************************************************************************************************/
-void MS5611_Update(void)
+void MS5611_Update(float dt)
 {
 	static int state = 0;
 	static int cnt_init;
-	if (state) {
-			MS5611_Read_Adc_P();
+	static float timer[2];
+	
+	switch(state){
+		case  0:
 			MS5611_Start_T();
+			state = 1;
+		  timer[0]=0;
+		break;
+		case 1:
+			timer[0]+=dt;
+		  if(timer[0]>0.010)
+			{timer[0]=0;state=2;
+			 MS5611_Read_Adc_T();
+			 MS5611_Start_P();
+			}
+		break;
+		case 2:
+			timer[0]+=dt;
+		  if(timer[0]>0.010)
+			{timer[0]=0;
+			MS5611_Read_Adc_P();
 			MS5611_BaroAltCalculate();
 		  ms5611.update=1;
-			state = 0;
-	} else {
-			MS5611_Read_Adc_T();
-			MS5611_Start_P();
-			state = 1;
-	}
+			ms5611.baroAlt_flt=LPButter_BaroAlt(ms5611.baroAlt-ms5611.baroAlt_off);
+			MS5611_Start_T();
+			state=1;
+			}
+    break;
+		}
 	if(cnt_init++>2.5/0.02&&ms5611.init_off==0){
 		ms5611.init_off=1;
 		ms5611.baroAlt_off=ms5611.baroAlt;
 	}
-	if(ms5611.init_off)
-		ms5611.baroAlt_flt=LPButter_BaroAlt(ms5611.baroAlt-ms5611.baroAlt_off);
+	timer[1]+=dt;
 }
 
 /**********************************************************************************************************

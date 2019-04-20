@@ -222,7 +222,7 @@ static  float temp,temp1;
 				  else if(temp1>3.7*2-1&&temp1<4.2*2+1)
 						bat.bat_s=2;
 					else
-						bat.bat_s=0;
+						bat.bat_s=2;
 					bat.full=4.25*bat.bat_s;
 					temp=0;
 				}	  

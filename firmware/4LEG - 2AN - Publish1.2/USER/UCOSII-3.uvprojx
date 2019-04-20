@@ -593,6 +593,11 @@
           <GroupName>HARDWARE</GroupName>
           <Files>
             <File>
+              <FileName>spi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\IIC\spi.c</FilePath>
+            </File>
+            <File>
               <FileName>flash.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\IIC\flash.c</FilePath>
@@ -636,11 +641,6 @@
               <FileName>watch_dog.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\IIC\watch_dog.c</FilePath>
-            </File>
-            <File>
-              <FileName>spi.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\HARDWARE\IIC\spi.c</FilePath>
             </File>
             <File>
               <FileName>nrf.c</FileName>
@@ -745,7 +745,7 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>MATH&amp;FUSHION</GroupName>
+          <GroupName>MATH_LIB</GroupName>
           <Files>
             <File>
               <FileName>fliter.c</FileName>
@@ -768,9 +768,9 @@
           <GroupName>POSE_FUSHION</GroupName>
           <Files>
             <File>
-              <FileName>nav2.c</FileName>
+              <FileName>pose_fushion.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\HARDWARE\NAV2\nav2.c</FilePath>
+              <FilePath>..\HARDWARE\NAV2\pose_fushion.c</FilePath>
             </File>
             <File>
               <FileName>baro_fushion.c</FileName>
@@ -778,19 +778,14 @@
               <FilePath>..\HARDWARE\NAV2\baro_fushion.c</FilePath>
             </File>
             <File>
-              <FileName>ekf_pos.c</FileName>
+              <FileName>pose_kf.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\HARDWARE\NAV2\ekf_pos.c</FilePath>
+              <FilePath>..\HARDWARE\NAV2\pose_kf.c</FilePath>
             </File>
             <File>
-              <FileName>inv.c</FileName>
+              <FileName>baro_kf.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\HARDWARE\NAV2\inv.c</FilePath>
-            </File>
-            <File>
-              <FileName>mpower.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\HARDWARE\NAV2\mpower.c</FilePath>
+              <FilePath>..\HARDWARE\NAV2\baro_kf.c</FilePath>
             </File>
             <File>
               <FileName>rt_nonfinite.c</FileName>
@@ -806,11 +801,6 @@
               <FileName>rtGetNaN.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\NAV2\rtGetNaN.c</FilePath>
-            </File>
-            <File>
-              <FileName>baro_kf.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\HARDWARE\NAV2\baro_kf.c</FilePath>
             </File>
           </Files>
         </Group>

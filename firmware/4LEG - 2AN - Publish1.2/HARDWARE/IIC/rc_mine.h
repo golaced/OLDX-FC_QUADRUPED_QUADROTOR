@@ -1,7 +1,11 @@
 #ifndef _RC_MINE_H_
 #define _RC_MINE_H_
 #include "include.h"
-
+#define RX_DR			6	
+#define TX_DS			5
+#define MAX_RT		4
+#define MID_RC_KEY 15
+#define MID_RC_GET 4
 void Nrf_Check_Event(void);
 void NRF_Send_AF(void);
 void NRF_Send_AE(void);
@@ -34,7 +38,7 @@ void pid_copy_param(void);
 
 typedef struct 
 {
- u8 gps,flow,sonar,bmp,flash,laser,pi,pi_flow,acc_imu,gyro_imu,hml_imu,nrf;
+ u8 gps,flow,sonar,bmp,flash,laser,pi,pi_flow,acc_imu,gyro_imu,hml_imu,hml_imu_o,nrf;
 }MOUDLE;
 extern MOUDLE module;
 #endif

@@ -1,4 +1,5 @@
 ..\obj\icm20602.o: ..\HARDWARE\IIC\icm20602.c
+..\obj\icm20602.o: ..\HARDWARE\IIC\math.h
 ..\obj\icm20602.o: ..\HARDWARE\IIC\spi.h
 ..\obj\icm20602.o: ..\HARDWARE\IIC\include.h
 ..\obj\icm20602.o: d:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h

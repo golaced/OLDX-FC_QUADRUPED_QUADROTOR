@@ -57,3 +57,4 @@
 ..\obj\vmc_sdk.o: ..\HARDWARE\IIC\dma.h
 ..\obj\vmc_sdk.o: ..\HARDWARE\IIC\leg.h
 ..\obj\vmc_sdk.o: ..\HARDWARE\IIC\rng.h
+..\obj\vmc_sdk.o: ..\HARDWARE\NAV2\nav.h

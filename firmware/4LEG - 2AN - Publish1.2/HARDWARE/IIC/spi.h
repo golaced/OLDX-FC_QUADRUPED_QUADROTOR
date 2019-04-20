@@ -21,6 +21,7 @@ u8 Spi_RW(u8 TxData);//SPI1总线读写一个字节
 #define NRF2401 1
 #define MS5611  2
 #define CS_FLASH 3
+#define CS_LIS 4
 void SPI_CS(u8 sel,u8 set);
 void SPI_Receive(uint8_t *pData, uint16_t Size);
 #define SPI_CE_H()   GPIO_SetBits(GPIOC, GPIO_Pin_2) 

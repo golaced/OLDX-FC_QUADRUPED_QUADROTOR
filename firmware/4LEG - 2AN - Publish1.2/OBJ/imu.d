@@ -57,3 +57,4 @@
 ..\obj\imu.o: ..\HARDWARE\IIC\leg.h
 ..\obj\imu.o: ..\HARDWARE\IIC\rng.h
 ..\obj\imu.o: ..\HARDWARE\IIC\my_math.h
+..\obj\imu.o: ..\HARDWARE\IIC\filter.h

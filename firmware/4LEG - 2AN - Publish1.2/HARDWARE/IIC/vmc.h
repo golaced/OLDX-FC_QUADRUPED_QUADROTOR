@@ -10,20 +10,23 @@ qq群:567423074
 vmc.lib 封装了虚拟力模型下足式机器人步态算法基本的库
 */
 
-#define USE_DEMO 0   //=1 使用开源DEMO程序
+#define USE_DEMO 1   //使用开源DEMO程序
+#define VIR_MODEL 0  //使用虚拟机器人模型
 
 #define CHECK_USE_SENSOR 0//跨腿使用机器人传感器数据估计着地点
-#define DEBUG_MODE 0 //测试模式
-#define USE_LOW_TORQUE 1
-#define HIGE_LEG_TRIG 1
-
+#define DEBUG_MODE 0 			//测试模式
+#define USE_LOW_TORQUE 1		//低舵机力矩
+#define HIGE_LEG_TRIG 0 	//高抬腿轨迹
+#define SLIP_MODE     1   //弹簧模式
 //----ROBOT Select
 #define MINI_LITTRO_DOG  
 //#define BIG_LITTRO_DOG
 
 #define MIN_SPD_ST 0.0005
 #define T_RST 1.5
-#define MAX_FSPD 0.6
+#define MAX_FSPD 0.6   //最大速度限制m/s
+#define POS_DEAD 0.05  //航点死区m
+#define YAW_POS_MAX 25
 
 extern float MIN_Z,MAX_SPD,MAX_SPD_RAD;
 extern float MAX_Z,MIN_X,MAX_X;
@@ -39,13 +42,16 @@ typedef struct
 
 typedef struct 
 {
-	float kp,ki,kd,max_ki,max_out;
+	float fp,kp,ki,kd,max_ki,max_out;
 	float p,i,d,out;
 	float err,interge,err_reg;
+	float kp_i,k_i,kd_i,max_ki_i,max_out_i;
+	float fp_i,p_i,i_i,d_i,out_i;
+	float err_i,interge_i,err_reg_i;
 	float in_set_force;
 }PID;
 
-extern PID h_pid_all,att_pid_all[2];
+extern PID h_pid_all,att_pid_all[3],pos_pid[2],pos_pid_all;
 
 typedef struct
 {
@@ -114,6 +120,8 @@ typedef struct
   //-----------系统变量--------------
 	float ground_force[4][3];
 	float encoder_spd[2];
+	float cog_off_use[4];
+	END_POS tar_spd_use[2],tar_spd_use_rc;
 	float line_z[2];//交叉失配高度
 	float cog_z_curve[3];//模型预测COG各阶状态
 	float w[10],w_t[10],w_cmd[10],weight[10];
@@ -124,33 +132,34 @@ typedef struct
 	float jump_param_use[5];
 	float jump_out[3];
 	//-------------模式-------------
+	char control_mode_all;
 	char have_cmd,have_cmd_rc,en_sdk,soft_start;
 	char control_mode,rc_mode[2];//控制模式
 	char en_hold_on;
 	char en_att_tirg;
 	char cal_flag[5];//机器人校准标志位
 	char smart_control_mode[3];//pos/spd   high  att/rad
-	//-------------授权码相关--------------
-	u8 key_right;//授权码是否正确
-	char your_key[3];
-	int board_id[3];//控制器ID
 }PARAM_ALL;
 
 typedef struct 
 {
+	//-------------授权码相关--------------
+	u8 key_right;//授权码是否正确
+	char your_key[3];
+	int board_id[3];//控制器ID
+	float sita_test[5];
+	//---------------------------------------
 	u8 ground[2][4];
-	END_POS tar_pos,tar_spd,tar_spd_use_rc,tar_spd_rc,tar_spd_use[2];
+	END_POS tar_pos,tar_spd,tar_spd_rc;
 	float tar_att[3],tar_att_rate[3],tar_att_off[3],ground_off[2];
-
 	//------------------------------------------
-
 	float kp_trig[2],kp_deng_gain[2],kp_deng[4],kd_deng[2],deng_all,kp_deng_ctrl[2][4],k_auto_time,kp_g[2],kp_touch,rst_dead,out_range_force;
-  float pid[3][7],pid_att[4][7],att_gain_length[2];
+  float pid[3][7],att_gain_length[2];
 	float delta_ht[2],delta_h_att_off,gain_torque;
-	float cog_off[5],off_leg_dis[2],cog_off_use[4];
+	float cog_off[5],off_leg_dis[2];
 	//
   float l1,l2,l3,l4,W,H,mess,flt_toqrue;
-	float gait_time[3];
+	float gait_time[4];
 	float gait_alfa;//0~1
 	float delay_time[3],gait_delay_time,stance_time,stance_time_auto;
 	//
@@ -162,7 +171,6 @@ typedef struct
 	float acc_norm;
 	char use_att,att_imu,trig_mode,gait_on,use_ground_sensor,ground_num,leg_power,power_state;
 	float end_dis[4];
-	float sita_test[5];
 	u8 err,unmove,hand_hold,fall,fly;
 	PARAM_ALL param;
 }VMC_ALL;
@@ -229,6 +237,7 @@ void smart_control(float dt);
 #define MODE_ATT 4
 #define MODE_BODY 5
 #define MODE_GLOBAL 6
+#define MODE_ATT_YAW_ONLY 7
 
 #define RAD_TO_DEG 180/PI
 #define DEG_TO_RAD PI/180

@@ -18,9 +18,10 @@
 #include "beep.h"
 #include "nav.h"
 #include "ms5611.h"
-float leg_dt[10];
+float leg_dt[GET_TIME_NUM];
 OS_STK FUSION_TASK_STK[FUSION_STK_SIZE];
-char en_nav=1;
+char en_nav=1,en_hml=0;
+float FLT_ACC=10;
 void fusion_task(void *pdata)
 {
  u8 i;
@@ -38,9 +39,13 @@ void fusion_task(void *pdata)
 	  vmc[i].ground_s=ls53[i].mode;
 		
 	if(cnt_init++>1/0.005){cnt_init=65530;
-	madgwick_update_new(leg_dt[0],mems.Gyro_deg.x/57.3, mems.Gyro_deg.y/57.3,
-		mems.Gyro_deg.z/57.3, mems.Acc.x, mems.Acc.y, mems.Acc.z,
-	0,0,0,&Pitch,&Roll,&Yaw);
+	madgwick_update_new(leg_dt[0],
+		mems.Gyro_deg.x/57.3, mems.Gyro_deg.y/57.3,mems.Gyro_deg.z/57.3, 
+		mems.Acc.x, mems.Acc.y, mems.Acc.z,
+		mems.Mag.x*module.hml_imu*mems.Mag_Have_Param*en_hml,
+		mems.Mag.y*module.hml_imu*mems.Mag_Have_Param*en_hml,
+		mems.Mag.z*module.hml_imu*mems.Mag_Have_Param*en_hml,
+		&Pitch,&Roll,&Yaw);
 	
   float a_br[3],acc_temp[3];
 	static float acc_flt[3];
@@ -54,16 +59,17 @@ void fusion_task(void *pdata)
 	vmc_all.att[PITr]=Pitch;
 	vmc_all.att[ROLr]=-Roll;
 	vmc_all.att[YAWr]=Yaw;		
+	#if VIR_MODEL
+	  vmc_all.att[YAWr]=nav.fake_yaw;
+	#endif
 	vmc_all.att_rate[PITr]=mems.Gyro_deg.x;
 	vmc_all.att_rate[ROLr]=mems.Gyro_deg.y;
 	vmc_all.att_rate[YAWr]=mems.Gyro_deg.z;
-	DigitalLPF(-acc_temp[0]*9.8, &vmc_all.acc[Xr], 2.5, leg_dt[0]);
-	DigitalLPF( acc_temp[1]*9.8, &vmc_all.acc[Yr], 2.5, leg_dt[0]);
-	DigitalLPF( acc_temp[2]*9.8, &vmc_all.acc[Zr], 2.5, leg_dt[0]);
+	DigitalLPF( acc_temp[0]*9.8, &vmc_all.acc[Xr], FLT_ACC, leg_dt[0]);
+	DigitalLPF(-acc_temp[1]*9.8, &vmc_all.acc[Yr], FLT_ACC, leg_dt[0]);
+	DigitalLPF( acc_temp[2]*9.8, &vmc_all.acc[Zr], FLT_ACC, leg_dt[0]);
 		
-	timer_baro+=leg_dt[0] ;
-  if(timer_baro>0.02)
-		{timer_baro=0;MS5611_Update();}
+	MS5611_Update(leg_dt[0]);
   }
 	delay_ms(5);
 	}
@@ -78,15 +84,21 @@ void pose_fusion_task(void *pdata)
  static float timer_pose_fushion;
  	while(1)
 	{
-	  leg_dt[5] = Get_Cycle_T(GET_T_TRIG); 			
+	  leg_dt[GET_T_FUSHION] = Get_Cycle_T(GET_T_FUSHION); 			
 		if(cnt_init++>1/0.005){cnt_init=65530;	
-
-    baro_fushion(leg_dt[5]);
-    timer_pose_fushion+=leg_dt[5];			
-//    if(en_nav&&timer_pose_fushion>0.03)
-//			{pose_fushion(timer_pose_fushion);	timer_pose_fushion=0;}
+    if(en_nav){
+    baro_fushion(leg_dt[GET_T_FUSHION]);
+		vmc_all.pos_n.z=nav.pos_n[Zr];
+			
+    timer_pose_fushion+=leg_dt[GET_T_FUSHION];	
+    if(timer_pose_fushion>0.03)
+			{pose_fushion(timer_pose_fushion);	
+			 vmc_all.pos_n.x=nav.pos_n[Xr];
+			 vmc_all.pos_n.y=nav.pos_n[Yr];
+			 timer_pose_fushion=0;}
 	  }
-		delay_ms(20);
+	}
+		delay_ms(10);
 	}
 }		
 
@@ -154,7 +166,7 @@ void brain_task(void *pdata)
 	 static int reg_aux;
 	 //power off
 	 if(Rc_Get.AUX1<1500&&reg_aux>1500&&vmc_all.sita_test[4]==0){
-		  vmc_all.power_state=vmc_all.leg_power=vmc_all.tar_spd_use_rc.x=vmc_all.tar_spd.x=0;
+		  vmc_all.power_state=vmc_all.leg_power=vmc_all.param.tar_spd_use_rc.x=vmc_all.tar_spd.x=0;
 	    for(int i=0;i<4;i++){
 				vmc[i].sita1=0-25;
 				vmc[i].sita2=180-(-25);
@@ -172,9 +184,6 @@ void brain_task(void *pdata)
 	 spd=LIMIT(my_deathzoom(Rc_Get.THROTTLE-1500,25)*MAX_SPD/1000.,-MAX_SPD,MAX_SPD);
 	 w_rad=LIMIT(my_deathzoom(my_deathzoom(Rc_Get.YAW-1500,25)*k_z_c,1.68),-MAX_SPD_RAD,MAX_SPD_RAD);//degree
 
-   if(KEY[0])
-	 {vmc_all.tar_spd.y=w_rad;vmc_all.tar_spd.z=0;} 
-	 else
 	 {vmc_all.tar_spd.z=-w_rad;vmc_all.tar_spd.y=0;}
 	 
 	 vmc_all.tar_att[ROLr]=LIMIT(vmc_all.tar_spd.y*2,-3+vmc_all.tar_att_off[ROLr],3+vmc_all.tar_att_off[ROLr]);
@@ -193,7 +202,7 @@ void brain_task(void *pdata)
 		vmc_all.param.have_cmd_rc=1;	
 		//power off
 	 if(KEY[1]&&KEY[0]&&vmc_all.sita_test[4]==0){
-		  vmc_all.power_state=vmc_all.leg_power=vmc_all.tar_spd_use_rc.x=vmc_all.tar_spd.x=0;
+		  vmc_all.power_state=vmc_all.leg_power=vmc_all.param.tar_spd_use_rc.x=vmc_all.tar_spd.x=0;
 	    for(int i=0;i<4;i++){
 				vmc[i].sita1=0-25;
 				vmc[i].sita2=180-(-25);
@@ -218,6 +227,8 @@ void brain_task(void *pdata)
 		vmc_all.err=2;
 	  IWDG_Init(4,500*1);
 	}
+	
+	fly_ready=LIMIT(vmc_all.leg_power,0,1);
 	#if USE_DEMO
 	if(power_task_d(T)!=2&&vmc_all.err==0)
 	#else
@@ -246,7 +257,7 @@ void brain_task(void *pdata)
 
 //=======================串口 任务函数===========================
 OS_STK  UART_TASK_STK[UART_STK_SIZE];
-u8 UART_UP_LOAD_SEL=9;//<------------------------------UART UPLOAD DATA SEL
+u8 UART_UP_LOAD_SEL=1;//<------------------------------UART UPLOAD DATA SEL
 float ground_check_show=0;
 void uart_task(void *pdata)
 {	static u8 cnt[4];	
@@ -262,8 +273,8 @@ void uart_task(void *pdata)
 			(int16_t)(0*10),(int16_t)(0*10.0),(int16_t)(0*10.0),0,0,0/10,0);break;		
 			case 1:
 			data_per_uart_rc(
-			vmc_all.body_spd[Zr]*1000,vmc[0].epos.z*1000,vmc[0].tar_epos.z*1000,
-			vmc[1].tar_epos.z*1000,vmc[0].spd.x*1000,vmc[0].tar_spd.x*1000,
+			vmc_all.body_spd[Zr]*1000,vmc[0].epos.z*1000,vmc[1].epos.z*1000,
+			vmc[0].tar_epos.z*1000,vmc[0].spd.x*1000,vmc[0].tar_spd.x*1000,
 			(vmc_all.deng_all*0.0001)*1000,vmc_all.tar_pos.z*1000,vmc_all.pos.z*1000,
 			(int16_t)(0*10),(int16_t)(0*10.0),(int16_t)(0*10.0),0,0,0/10,0);break;	
 		  case 2:
@@ -286,8 +297,8 @@ void uart_task(void *pdata)
 			(int16_t)(0*10),(int16_t)(0*10.0),(int16_t)(0*10.0),0,0,0/10,0);break;
 			case 5:
 			data_per_uart_rc(
-			vmc_all.acc[Xr]*100,vmc_all.acc[Yr]*100,vmc_all.acc[Zr]*100,
-		  vmc_all.acc[3]*100,vmc_all.att_rate[ROLr]*10,vmc_all.tar_att_rate[ROLr]*10,
+			nav.acc_b_o[Xr]*100,nav.acc_b_o[Yr]*100,0,
+		  nav.acc_n_o[Xr]*100,nav.acc_n_o[Yr]*100,0,
 			vmc_all.tar_pos.z*1000,vmc_all.pos.z*1000,vmc_all.param.w_t[ROLr]*100,
 			(int16_t)(0*10),(int16_t)(0*10.0),(int16_t)(0*10.0),0,0,0/10,0);break;
       case 6:
@@ -312,8 +323,15 @@ void uart_task(void *pdata)
 			data_per_uart_rc(
 			vmc_all.acc[Zr]*100,vmc_all.body_spd[Zr]*100,nav.spd_n[Zr]*100,
 			ms5611.baroAlt_flt,ms5611.baroAlt-ms5611.baroAlt_off,nav.pos_n[Zr]*100,
-			nav.acc_n[Zr]*10,0,0,
+			nav.acc_n[Zr]*10,ms5611.baroAlt_flt1*100,0,
 			(int16_t)(0*10),(int16_t)(0*10.0),(int16_t)(0*10.0),0,0,0/10,0);break;
+			case 10:
+			data_per_uart_rc(
+			nav.spd_b[Xr]*100,nav.spd_b_o[Yr]*100,nav.spd_b[Yr]*100,
+			nav.pos_n[Xr]*100,nav.pos_n[Yr]*100,nav.att[YAWr]*10,
+			vmc_all.att_rate[Zr],0,nav.spd_b_o[Zr],
+			(int16_t)(0*10),(int16_t)(0*10.0),(int16_t)(0*10.0),0,0,0/10,0);break;
+
 			default:break;
 			}
 			

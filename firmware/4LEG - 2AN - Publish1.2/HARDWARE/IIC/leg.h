@@ -169,27 +169,6 @@ typedef struct
 }BRAIN_STRUCT;
 
 
-typedef struct
-{
- float pt[3];
- float vt[3];
- float at[3];
- float ps[3];
- float vs[3];
- float as[3];
- float pe[3];
- float ve[3];
- float ae[3];
- float param[10];
- float Time;
- float cost;
- char defined[3];
-	
-}_TRA;
-
-extern _TRA traj[5][3];
-void plan_tra(u8 id);
-void get_tra(u8 id,float time_now);
 extern u8 last_move_leg;
 extern LEG_STRUCT leg[5];
 extern BRAIN_STRUCT brain;

@@ -34,28 +34,6 @@ void Low_Fass_Filter(float in, float* out, float cutoff_freq, float dt) {
 	
 }
 
-float my_deathzoom1(float x,float zoom)
-{
-	float t;
-	if(x>0)
-	{
-		t = x - zoom;
-		if(t<0)
-		{
-			t = 0;
-		}
-	}
-	else
-	{
-		t = x + zoom;
-		if(t>0)
-		{
-			t = 0;
-		}
-	}
-  return (t);
-}
-
 #define MED_WIDTH_NUM 20
 #define MED_FIL_ITEM  30
 

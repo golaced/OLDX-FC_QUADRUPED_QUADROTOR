@@ -18,6 +18,7 @@
 #define BARO_SPI 0
 typedef struct{
 	int32_t baroAlt,baroAlt_flt,baroAlt_off;
+	float baroAlt_flt1;
 	int32_t pressure;
 	int32_t temperature;	
 	uint32_t ut;  // static result of temperature measurement
@@ -31,7 +32,7 @@ extern MS5611_t ms5611;
 u8 MS5611_Detect(void);
 void MS5611_Init(void);
 
-void MS5611_Update(void);
+void MS5611_Update(float dt);
 void MS5611_Read(int32_t* baroAlt);
 
 #endif

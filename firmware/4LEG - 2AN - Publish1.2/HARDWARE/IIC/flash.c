@@ -4,17 +4,14 @@
 #include "mems.h"	
 #include "flash_w25.h"
 #include "vmc.h"
+#include "icm20602.h"	
+#include "math.h"	
 //#include "mavl.h"
-//读取指定地址的半字(16位数据) 
-//faddr:读地址 
-//返回值:对应数据.
+
 u32 STMFLASH_ReadWord(u32 faddr)
 {
 	return *(vu32*)faddr; 
 }  
-//获取某个地址所在的flash扇区
-//addr:flash地址
-//返回值:0~11,即addr所在的扇区
 uint16_t STMFLASH_GetFlashSector(u32 addr)
 {
 	if(addr<ADDR_FLASH_SECTOR_1)return FLASH_Sector_0;
@@ -30,16 +27,7 @@ uint16_t STMFLASH_GetFlashSector(u32 addr)
 	else if(addr<ADDR_FLASH_SECTOR_11)return FLASH_Sector_10; 
 	return FLASH_Sector_11;	
 }
-//从指定地址开始写入指定长度的数据
-//特别注意:因为STM32F4的扇区实在太大,没办法本地保存扇区数据,所以本函数
-//         写地址如果非0XFF,那么会先擦除整个扇区且不保存扇区数据.所以
-//         写非0XFF的地址,将导致整个扇区数据丢失.建议写之前确保扇区里
-//         没有重要数据,最好是整个扇区先擦除了,然后慢慢往后写. 
-//该函数对OTP区域也有效!可以用来写OTP区!
-//OTP区域地址范围:0X1FFF7800~0X1FFF7A0F
-//WriteAddr:起始地址(此地址必须为4的倍数!!)
-//pBuffer:数据指针
-//NumToWrite:字(32位)数(就是要写入的32位数据的个数.) 
+
 void STMFLASH_Write(u32 WriteAddr,u32 *pBuffer,u32 NumToWrite)	
 { 
   FLASH_Status status = FLASH_COMPLETE;
@@ -78,10 +66,7 @@ void STMFLASH_Write(u32 WriteAddr,u32 *pBuffer,u32 NumToWrite)
 	FLASH_Lock();//上锁
 } 
 
-//从指定地址开始读出指定长度的数据
-//ReadAddr:起始地址
-//pBuffer:数据指针
-//NumToRead:字(4位)数
+
 void STMFLASH_Read(u32 ReadAddr,u32 *pBuffer,u32 NumToRead)   	
 {
 	u32 i;
@@ -124,14 +109,17 @@ mems.Acc_Offset.x=(vs16)(FLASH_Buffer[7]<<8|FLASH_Buffer[6]);
 mems.Acc_Offset.y=(vs16)(FLASH_Buffer[9]<<8|FLASH_Buffer[8]);
 mems.Acc_Offset.z=(vs16)(FLASH_Buffer[11]<<8|FLASH_Buffer[10]);
 	
-//ak8975_fc.Mag_Offset.x=(vs16)(FLASH_Buffer[13]<<8|FLASH_Buffer[12]);
-//ak8975_fc.Mag_Offset.y=(vs16)(FLASH_Buffer[15]<<8|FLASH_Buffer[14]);
-//ak8975_fc.Mag_Offset.z=(vs16)(FLASH_Buffer[17]<<8|FLASH_Buffer[16]);
-//	
-//ak8975_fc.Mag_Gain.x =(float)((vs16)((FLASH_Buffer[19]<<8|FLASH_Buffer[18])))/100.;
-//ak8975_fc.Mag_Gain.y=(float)((vs16)((FLASH_Buffer[21]<<8|FLASH_Buffer[20])))/100.;
-//ak8975_fc.Mag_Gain.z =(float)((vs16)((FLASH_Buffer[23]<<8|FLASH_Buffer[22])))/100.;
+mems.Mag_Offset.x=(vs16)(FLASH_Buffer[13]<<8|FLASH_Buffer[12]);
+mems.Mag_Offset.y=(vs16)(FLASH_Buffer[15]<<8|FLASH_Buffer[14]);
+mems.Mag_Offset.z=(vs16)(FLASH_Buffer[17]<<8|FLASH_Buffer[16]);
 	
+mems.Mag_Gain.x =(float)((vs16)((FLASH_Buffer[19]<<8|FLASH_Buffer[18])))/100.;
+mems.Mag_Gain.y =(float)((vs16)((FLASH_Buffer[21]<<8|FLASH_Buffer[20])))/100.;
+mems.Mag_Gain.z =(float)((vs16)((FLASH_Buffer[23]<<8|FLASH_Buffer[22])))/100.;
+	
+if(fabs(mems.Mag_Gain.x)<10&&mems.Mag_Gain.x!=-1&&fabs(mems.Mag_Offset.x)<666&&mems.Mag_Offset.x!=-1)
+	mems.Mag_Have_Param=1;
+
 vmc[0].param.PWM_OFF[0]=(vs16)(FLASH_Buffer[25]<<8|FLASH_Buffer[24]);
 vmc[0].param.PWM_OFF[1]=(vs16)(FLASH_Buffer[27]<<8|FLASH_Buffer[26]);
 vmc[0].param.PWM_OFF[2]=(vs16)(FLASH_Buffer[29]<<8|FLASH_Buffer[28]);
@@ -161,10 +149,13 @@ vmc_all.param.ground_force[3][1]=(float)((vs16)(FLASH_Buffer[63]<<8|FLASH_Buffer
 vmc_all.tar_att_off[PITr]=(float)((vs16)(FLASH_Buffer[65]<<8|FLASH_Buffer[64]))/100.;
 vmc_all.tar_att_off[ROLr]=(float)((vs16)(FLASH_Buffer[67]<<8|FLASH_Buffer[66]))/100.;
 
-vmc_all.param.your_key[0]=FLASH_Buffer[68];
-vmc_all.param.your_key[1]=FLASH_Buffer[69];
-vmc_all.param.your_key[2]=FLASH_Buffer[70];
+vmc_all.your_key[0]=FLASH_Buffer[68];
+vmc_all.your_key[1]=FLASH_Buffer[69];
+vmc_all.your_key[2]=FLASH_Buffer[70];
 
+CHE=FLASH_Buffer[71];
+if(CHE==255)
+	CHE=11;
 if(SBUS_MIN==65535)
 {
 SBUS_MIN=860;
@@ -202,24 +193,24 @@ FLASH_Buffer[cnt++]=BYTE1(_temp);
 _temp=(int16_t)mems.Acc_Offset.z;
 FLASH_Buffer[cnt++]=BYTE0(_temp);
 FLASH_Buffer[cnt++]=BYTE1(_temp);
-_temp=0;//(int16_t)ak8975_fc.Mag_Offset.x;
+_temp=(int16_t)mems.Mag_Offset.x;
 FLASH_Buffer[cnt++]=BYTE0(_temp);
 FLASH_Buffer[cnt++]=BYTE1(_temp);
-_temp=0;//((int16_t)ak8975_fc.Mag_Offset.y;
+_temp=(int16_t)mems.Mag_Offset.y;
 FLASH_Buffer[cnt++]=BYTE0(_temp);
 FLASH_Buffer[cnt++]=BYTE1(_temp);
-_temp=0;//((int16_t)ak8975_fc.Mag_Offset.z;
+_temp=(int16_t)mems.Mag_Offset.z;
 FLASH_Buffer[cnt++]=BYTE0(_temp);
 FLASH_Buffer[cnt++]=BYTE1(_temp);
 
 
-_temp=0;//((int16_t)(ak8975_fc.Mag_Gain.x*100);
+_temp=(int16_t)(mems.Mag_Gain.x*100);
 FLASH_Buffer[cnt++]=BYTE0(_temp);
 FLASH_Buffer[cnt++]=BYTE1(_temp);
-_temp=0;//((int16_t)(ak8975_fc.Mag_Gain.y*100);
+_temp=(int16_t)(mems.Mag_Gain.y*100);
 FLASH_Buffer[cnt++]=BYTE0(_temp);
 FLASH_Buffer[cnt++]=BYTE1(_temp);
-_temp=0;//((int16_t)(ak8975_fc.Mag_Gain.z*100);
+_temp=(int16_t)(mems.Mag_Gain.z*100);
 FLASH_Buffer[cnt++]=BYTE0(_temp);
 FLASH_Buffer[cnt++]=BYTE1(_temp);
 
@@ -256,9 +247,11 @@ _temp=vmc_all.tar_att_off[ROLr]*100;
 FLASH_Buffer[cnt++]=BYTE0(_temp);
 FLASH_Buffer[cnt++]=BYTE1(_temp);
 
-FLASH_Buffer[cnt++]=vmc_all.param.your_key[0];
-FLASH_Buffer[cnt++]=vmc_all.param.your_key[1];
-FLASH_Buffer[cnt++]=vmc_all.param.your_key[2];
+FLASH_Buffer[cnt++]=vmc_all.your_key[0];
+FLASH_Buffer[cnt++]=vmc_all.your_key[1];
+FLASH_Buffer[cnt++]=vmc_all.your_key[2];
+
+FLASH_Buffer[cnt++]=BYTE0(CHE);
 
 #if FLASH_USE_STM32
 STMFLASH_Write(FLASH_SAVE_ADDR,(u32*)FLASH_Buffer,SIZE);

@@ -22,10 +22,11 @@ void POWER_INIT(void)
 }
 
 void leg_power_control(u8 sel){
-#if defined(HARDWARE_V1)
-if(sel)
-#else
+#if defined(BIG_LITTRO_DOG)
 if(!sel)
+#else
+if(sel)
+//if(!sel)	
 #endif
 GPIO_ResetBits(GPIOC,GPIO_Pin_3);
 else
@@ -165,8 +166,12 @@ char dj_sel_table2[8]={0,1, 0,1, 0,1 ,0,1};
 switch(main_state)
 { 
 	case IDLE:
-	if(mems.Gyro_CALIBRATE)
+	if(mems.Gyro_CALIBRATE&&vmc_all.power_state==0)
 	{idle_state=0;main_state=CAL_MPU;
+	}
+	
+	if(mems.Mag_CALIBRATE&&vmc_all.power_state==0)
+	{idle_state=0;main_state=CAL_M;
 	}
 	
 	if(KEY[0]&&KEY[1]==1)
@@ -176,9 +181,14 @@ switch(main_state)
 		cnt_dj_cal[0]+=dt;
 	else
 		cnt_dj_cal[0]=0;
-	if(cnt_dj_cal[0]>6){
+	if(cnt_dj_cal[0]>6&&vmc_all.power_state==0){
+		if(KEY[0]==0){
 		cnt_dj_cal[0]=0;
-	  main_state=CAL_MPU;
+	  main_state=CAL_MPU;}
+		else{
+		mems.Mag_CALIBRATE=1;
+		vmc_all.leg_power=vmc_all.power_state=0;	
+		}
 	}
 	break;
 	case CAL_MPU:
@@ -197,7 +207,19 @@ switch(main_state)
 		{cnt_dj_cal[0]=0;
 		 main_state=IDLE;}
 	break;
+		 
+		 
 	case CAL_M:
+		cnt_dj_cal[0]+=dt;
+	  LEDRGB_COLOR(BLUE);
+	  Play_Music_Task(BEEP_HML_CAL,dt);	
+		if(cnt_dj_cal[0]>11)
+		{cnt_dj_cal[0]=0;
+		 main_state=DELAY_S;
+		 Tone(0,0);}
+		
+		if(mems.Mag_CALIBRATE==0)
+		{idle_state=0;main_state=IDLE;Tone(0,0);}
   break;
 	
 	case CAL_DJ1:

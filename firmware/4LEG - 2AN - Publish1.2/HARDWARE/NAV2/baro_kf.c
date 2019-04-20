@@ -23,9 +23,12 @@
  *                double dt
  * Return Type  : void
  */
+int delay_sel[4]={1,0,0,0};
 void baro_kf(double xa_apo[4], double Pa_apo[16], const double z[2], double
              z_flag,  double q[4],  double r[2], double dt)
 {
+	int i;
+	static double pos_buf[30],vel_buf[30],acc_buf[30],bias_buf[30];
   double A[16];
   int r1;
   double R[4];
@@ -50,7 +53,7 @@ void baro_kf(double xa_apo[4], double Pa_apo[16], const double z[2], double
   double a22;
   A[0] = 1.0;
   A[4] = dt;
-  A[8] = 0.0;
+  A[8] = 0.5 * (dt * dt);
   A[12] = 0.0;
   A[1] = 0.0;
   A[5] = 1.0;
@@ -86,11 +89,22 @@ void baro_kf(double xa_apo[4], double Pa_apo[16], const double z[2], double
   /*  copy the states */
   /*  position */
   /*  prediction section */
-  x_apr[0] = xa_apo[0] + xa_apo[1] * dt;
+  x_apr[0] = xa_apo[0] + xa_apo[1] * dt + 0.5* xa_apo[2] * dt *dt;
   x_apr[1] = xa_apo[1] + xa_apo[2] * dt;
   x_apr[2] = xa_apo[2];
   x_apr[3] = xa_apo[3];
-
+  
+		for(i=29;i>0;i--)
+	{
+	pos_buf[i]=pos_buf[i-1];
+	vel_buf[i]=vel_buf[i-1];
+	acc_buf[i]=acc_buf[i-1];
+	bias_buf[i]=bias_buf[i-1];		
+	}
+	pos_buf[0]=x_apr[0];	
+  vel_buf[0]=x_apr[1];
+	acc_buf[0]=x_apr[2];
+	bias_buf[0]=x_apr[3];
   /* states */
   /*  update */
   H[0] = z_flag;
@@ -160,10 +174,15 @@ void baro_kf(double xa_apo[4], double Pa_apo[16], const double z[2], double
     K_k[k + (r1 << 2)] -= K_k[k + (r2 << 2)] * a21;
   }
 
+	float x_apr_delay[4];
+	x_apr_delay[0]=pos_buf[delay_sel[0]];	
+  x_apr_delay[1]=vel_buf[delay_sel[1]];
+	x_apr_delay[2]=acc_buf[delay_sel[2]];
+	x_apr_delay[3]=bias_buf[delay_sel[3]];
   for (r1 = 0; r1 < 2; r1++) {
     a21 = 0.0;
     for (r2 = 0; r2 < 4; r2++) {
-      a21 += H[r1 + (r2 << 1)] * x_apr[r2];
+			a21 += H[r1 + (r2 << 1)] * x_apr_delay[r2];
     }
 
     v[r1] = z[r1] - a21;

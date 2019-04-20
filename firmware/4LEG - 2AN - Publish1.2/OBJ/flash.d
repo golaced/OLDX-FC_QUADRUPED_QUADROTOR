@@ -55,3 +55,5 @@
 ..\obj\flash.o: ..\HARDWARE\IIC\rng.h
 ..\obj\flash.o: ..\HARDWARE\IIC\flash_w25.h
 ..\obj\flash.o: ..\HARDWARE\IIC\vmc.h
+..\obj\flash.o: ..\HARDWARE\IIC\icm20602.h
+..\obj\flash.o: ..\HARDWARE\IIC\math.h

@@ -37,7 +37,7 @@ OS_EVENT * q_msg;			//消息队列
 
 OS_FLAG_GRP * flags_key;	//按键信号量集
 void * MsgGrp[256];			//消息队列存储地址,最大支持256个消息
-int CHE=11;
+u8 CHE=11;
 int main(void)
 { 
 		NVIC_PriorityGroupConfig(NVIC_GROUP);//设置系统中断优先级分组2
@@ -89,11 +89,9 @@ int main(void)
   LED_Init();								//LED功能初始化
  	SPI2_Init();
   Delay_ms(100);
-  #if defined(ICM20602)
-	Icm20602Reg_Init();
-	#else
-	LIS3MDL_enableDefault();
-	#endif
+	LIS3MDL_Init();
+	Delay_ms(100);
+	DS33_Init();
 	Delay_ms(100);
 	MS5611_Init();
   Adc_Init();

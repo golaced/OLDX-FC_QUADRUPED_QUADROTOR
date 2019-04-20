@@ -419,3 +419,106 @@ float my_pow_2_curve(float in,float a,float max)
 
 }
 
+//jerk trajectory planner
+
+_TRA traj[10];
+void GenerateTrajectory(float  p0,float v0,float a0,float pf,float vf,float af,float Tf,
+	 char defined[3],float*a,float*b,float*g,float *cost){
+char accGoalDefined=defined[0];
+char posGoalDefined=defined[1];
+char velGoalDefined=defined[2];
+ //define starting position:
+ float  delta_a = af - a0;
+ float  delta_v = vf - v0 - a0*Tf;
+ float  delta_p = pf - p0 - v0*Tf - 0.5*a0*Tf*Tf;
+
+ // %powers of the end time:
+  float  T2 = Tf*Tf;
+  float  T3 = T2*Tf;
+  float  T4 = T3*Tf;
+  float  T5 = T4*Tf;
+  
+  //%solve the trajectories, depending on what's constrained:
+  if(posGoalDefined && velGoalDefined && accGoalDefined)
+  {
+    *a = ( 60*T2*delta_a - 360*Tf*delta_v + 720* 1*delta_p)/T5;
+    *b = (-24*T3*delta_a + 168*T2*delta_v - 360*Tf*delta_p)/T5;
+    *g = (  3*T4*delta_a -  24*T3*delta_v +  60*T2*delta_p)/T5;
+}
+  else if(posGoalDefined && velGoalDefined)
+  {
+    *a = (-120*Tf*delta_v + 320*   delta_p)/T5;
+    *b = (  72*T2*delta_v - 200*Tf*delta_p)/T5;
+    *g = ( -12*T3*delta_v +  40*T2*delta_p)/T5;
+	}
+      else if(posGoalDefined && accGoalDefined)
+			{
+    *a = (-15*T2*delta_a + 90*   delta_p)/(2*T5);
+    *b = ( 15*T3*delta_a - 90*Tf*delta_p)/(2*T5);
+    *g = (- 3*T4*delta_a + 30*T2*delta_p)/(2*T5);
+		}
+      else if(velGoalDefined && accGoalDefined)
+			{
+    *a = 0;
+    *b = ( 6*Tf*delta_a - 12*   delta_v)/T3;
+    *g = (-2*T2*delta_a +  6*Tf*delta_v)/T3;
+		}
+      else if(posGoalDefined)
+  
+  {  *a =  20*delta_p/T5;
+    *b = -20*delta_p/T4;
+    *g =  10*delta_p/T3;
+		}
+      else if(velGoalDefined)
+			{
+    *a = 0;
+    *b =-3*delta_v/T3;
+    *g = 3*delta_v/T2;
+		}
+      else if(accGoalDefined)
+			{
+    *a = 0;
+    *b = 0;
+    *g = delta_a/Tf;
+		}
+  else{
+ //%Nothing to do!
+    *a = 0;
+    *b = 0;
+    *g = 0;
+}
+
+ //%Calculate the cost:
+  *cost =  *g* *g + *b* *g*Tf + *b* *b*T2/3.0 + *a* *g*T2/3.0 + *a* *b*T3/4.0 + *a* *a*T4/20.0;
+}
+
+void get_trajecotry(float p0,float v0,float a0,float a,float b,float g,float t,float *pos,float *spd,float *acc,float *jerk){
+*pos=p0 + v0*t + (1/2.0)*a0*t*t + (1/6.0)*g*t*t*t + (1/24.0)*b*t*t*t*t + (1/120.0)*a*t*t*t*t*t;
+*jerk=g  + b*t  + (1/2.0)*a*t*t;
+*acc=a0 + g*t  + (1/2.0)*b*t*t  + (1/6.0)*a*t*t*t;
+*spd=v0 + a0*t + (1/2.0)*g*t*t  + (1/6.0)*b*t*t*t + (1/24.0)*a*t*t*t*t;
+}
+
+
+void plan_tra(_TRA *tra)
+{	
+ char i,j;
+ float cost[3];
+	for(i=0;i<3;i++)
+	{
+	  GenerateTrajectory(tra->ps[i],tra->vs[i],tra->as[i], tra->pe[i],tra->ve[i],tra->ae[i], tra->Time,
+	  tra->defined,&tra->param[i*3+0],&tra->param[i*3+1],&tra->param[i*3+2],&cost[i]);
+	}
+	tra->cost_all=cost[0]+cost[1]+cost[2];
+}
+
+void get_tra(_TRA *tra,float t)
+{
+char i;
+float acc,jerk;
+for(i=0;i<3;i++)
+ get_trajecotry( tra->ps[i],tra->vs[i],tra->as[i],
+	tra->param[i*3+0],tra->param[i*3+1],tra->param[i*3+2]
+	, t,
+	&tra->pt[i], &tra->vt[i], &acc, &jerk);
+}	

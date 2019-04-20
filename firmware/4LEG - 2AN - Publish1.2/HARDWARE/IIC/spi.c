@@ -24,7 +24,7 @@ void SPI2_Init(void)
 	GPIO_Init(GPIOC, &GPIO_InitStructure);
 
 	
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4|GPIO_Pin_5|GPIO_Pin_12; //csn  pa4
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4|GPIO_Pin_5|GPIO_Pin_12|GPIO_Pin_13; //csn  pa4
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_25MHz; 
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;//??????
   GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;//????
@@ -41,6 +41,7 @@ void SPI2_Init(void)
 	SPI_CS(MPU9250,1);
 	SPI_CS(CS_FLASH,1);
 	SPI_CS(MS5611,1);
+	SPI_CS(CS_LIS,1);
 	
   GPIO_PinAFConfig(GPIOB,GPIO_PinSource13,GPIO_AF_SPI2); //PB3??? SPI1
 	GPIO_PinAFConfig(GPIOB,GPIO_PinSource14,GPIO_AF_SPI2); //PB4??? SPI1
@@ -93,6 +94,7 @@ void SPI_CS(u8 sel,u8 set)
 	GPIO_SetBits(GPIOC, GPIO_Pin_5);
 	GPIO_SetBits(GPIOC, GPIO_Pin_12);
 	GPIO_SetBits(GPIOA, GPIO_Pin_15);
+	GPIO_SetBits(GPIOC, GPIO_Pin_13);
 	delay_us(10);
 switch(sel)
 {
@@ -122,6 +124,13 @@ switch(sel)
 	GPIO_SetBits(GPIOA, GPIO_Pin_15);
 	else
 	GPIO_ResetBits(GPIOA, GPIO_Pin_15);
+		delay_us(10);
+	break;
+	case CS_LIS:
+	if(set)	
+	GPIO_SetBits(GPIOC, GPIO_Pin_13);
+	else
+	GPIO_ResetBits(GPIOC, GPIO_Pin_13);
 		delay_us(10);
 	break;
 }

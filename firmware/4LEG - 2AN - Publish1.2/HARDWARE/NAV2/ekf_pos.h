@@ -2,7 +2,7 @@
  * File: ekf_pos.h
  *
  * MATLAB Coder version            : 4.0
- * C/C++ source code generated on  : 01-Apr-2019 20:13:10
+ * C/C++ source code generated on  : 05-Apr-2019 10:17:07
  */
 
 #ifndef EKF_POS_H
@@ -11,11 +11,13 @@
 /* Include Files */
 #include <stddef.h>
 #include <stdlib.h>
+#include "rtwtypes.h"
 
 
 /* Function Declarations */
-extern void ekf_pos(double X[6], double P[36], const double Z[9], const double
-                    Z_flag[5], const double q[4], const double r[5], double T);
+ void ekf_pos(double Xr[6], double Pr[36], const double Zr[9], const
+                    double Z_flag[4], const double qr[4], const double rr[5],
+                    double T);
 
 #endif
 

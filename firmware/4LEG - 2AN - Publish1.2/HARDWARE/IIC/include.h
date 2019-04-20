@@ -24,11 +24,6 @@
 //#define LEG_USE_VL6
 //#define LEG_USE_SWITCH
 #define LEG_USE_AD
-
-
-//----imu sensro
-//#define ICM20602
-
 #define HARDWARE_V1 
 /***************中断优先级******************/
 #define NVIC_GROUP NVIC_PriorityGroup_2		//中断分组选择
@@ -85,7 +80,7 @@
 #define EN_DMA_UART3 0  //
 #define EN_DMA_UART4 0  //
 #define EN_DMA_UART6 1  //
-extern u8 fly_ready,force_Thr_low,mode_change;
+extern u8 fly_ready,force_Thr_low,mode_change,CHE;
 
 #define RtA 		57.324841				
 #define AtR    	0.0174533				
@@ -102,14 +97,6 @@ extern u8 fly_ready,force_Thr_low,mode_change;
 #define TEM 6
 #define ITEMS 7
 
-#define ROLr 0
-#define PITr 1
-#define THRr 2
-#define YAWr 3
-#define AUX1r 4 
-#define AUX2r 5
-#define AUX3r 6
-#define AUX4r 7
 
 enum
 {

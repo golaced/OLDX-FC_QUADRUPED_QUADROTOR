@@ -10,6 +10,7 @@ float gait_test[5]={0,0,  40   ,0.168,    0};
 u8 force_dj_off_reset=0;
 void DJ_init(VMC *in)
 {
+float dj_sel=DJ_KPOWER;
 switch(in->param.id){
 case 0:	//<--------------------------------1
 in->param.sita_flag[0]=1;
@@ -28,30 +29,36 @@ in->param.sita_flag[0]=1;
 in->param.sita_flag[1]=1;	
 break;
 }
+
+#if defined(BIG_LITTRO_DOG)
+dj_sel=DJ_DSB;//DJ_KPOWER  //DJ_DSB
+#else
+dj_sel=DJ_DSB;
+#endif
 switch(in->param.id){
 case 0:
-in->param.PWM_PER_DEGREE[0]=DJ_KPOWER;
-in->param.PWM_PER_DEGREE[1]=DJ_KPOWER;
-in->param.PWM_PER_DEGREE[2]=DJ_KPOWER;
-in->param.PWM_PER_DEGREE[3]=DJ_KPOWER;
+in->param.PWM_PER_DEGREE[0]=dj_sel;
+in->param.PWM_PER_DEGREE[1]=dj_sel;
+in->param.PWM_PER_DEGREE[2]=dj_sel;
+in->param.PWM_PER_DEGREE[3]=dj_sel;
 break;
 case 1:
-in->param.PWM_PER_DEGREE[0]=DJ_KPOWER;	
-in->param.PWM_PER_DEGREE[1]=DJ_KPOWER;
-in->param.PWM_PER_DEGREE[2]=DJ_KPOWER;
-in->param.PWM_PER_DEGREE[3]=DJ_KPOWER;
+in->param.PWM_PER_DEGREE[0]=dj_sel;	
+in->param.PWM_PER_DEGREE[1]=dj_sel;
+in->param.PWM_PER_DEGREE[2]=dj_sel;
+in->param.PWM_PER_DEGREE[3]=dj_sel;
 break;
 case 2:
-in->param.PWM_PER_DEGREE[0]=DJ_KPOWER;//da
-in->param.PWM_PER_DEGREE[1]=DJ_KPOWER;//xiao
-in->param.PWM_PER_DEGREE[2]=DJ_KPOWER;//zhuan
-in->param.PWM_PER_DEGREE[3]=DJ_KPOWER;
+in->param.PWM_PER_DEGREE[0]=dj_sel;//da
+in->param.PWM_PER_DEGREE[1]=dj_sel;//xiao
+in->param.PWM_PER_DEGREE[2]=dj_sel;//zhuan
+in->param.PWM_PER_DEGREE[3]=dj_sel;
 break;
 case 3:	
-in->param.PWM_PER_DEGREE[0]=DJ_KPOWER;	
-in->param.PWM_PER_DEGREE[1]=DJ_KPOWER;
-in->param.PWM_PER_DEGREE[2]=DJ_KPOWER;
-in->param.PWM_PER_DEGREE[3]=DJ_KPOWER;
+in->param.PWM_PER_DEGREE[0]=dj_sel;	
+in->param.PWM_PER_DEGREE[1]=dj_sel;
+in->param.PWM_PER_DEGREE[2]=dj_sel;
+in->param.PWM_PER_DEGREE[3]=dj_sel;
 break;
 }
 
@@ -75,11 +82,18 @@ void vmc_init(void)
 	vmc_all.l4=0.026/2;
 	vmc_all.H=0.265;
 	vmc_all.W=0.19;
-	vmc_all.mess=1.56;//机体重量kg
-	vmc_all.cog_off[F]=-vmc_all.H*0.018/0.16;//0.008;//重心偏差  前
-	vmc_all.cog_off[B]=-0.0;//重心偏差  后
-	vmc_all.cog_off[3]=-6;// 旋转移动时角度倾斜 前
+	vmc_all.mess=0.7;//机体重量kg
+	vmc_all.cog_off[F]=-vmc_all.H*0.000/0.16;//0.008;//重心偏差  前
+	vmc_all.cog_off[B]=-vmc_all.H*0.000/0.16;//-0.008;//重心偏差  后
+	vmc_all.cog_off[2]=3;// 前后移动时角度倾斜
+	vmc_all.cog_off[3]=-3.2;// 旋转移动时角度倾斜 前
 	vmc_all.cog_off[4]=-1.68;// 旋转移动时角度倾斜 后
+	vmc_all.gait_time[0]=vmc_all.gait_time[1]=0.425;//步态周期
+		//跨腿PID 足尖局部速度
+	vmc_all.kp_trig[0]=0.25;//0.125;//跨腿前馈增益
+	vmc_all.kp_trig[1]=0;//    跨腿加速度前馈增益
+	vmc_all.param.kp_pose_reset[0]=150;//自动归中增益
+	vmc_all.param.kp_pose_reset[1]=0;//自动归中增益
 #endif
 #if defined (MINI_LITTRO_DOG)	
 	vmc_all.l1=0.0376;
@@ -89,17 +103,24 @@ void vmc_init(void)
 	vmc_all.H=0.16;
 	vmc_all.W=0.09;
 	vmc_all.mess=0.56;//机体重量kg
-	vmc_all.cog_off[F]=-vmc_all.H*0.018/0.16;//0.008;//重心偏差  前
-	vmc_all.cog_off[B]=-0.0;//-0.008;//重心偏差  后
+	vmc_all.cog_off[F]=-vmc_all.H*0.008/0.16;//0.008;//重心偏差  前
+	vmc_all.cog_off[B]=-vmc_all.H*0.006/0.16;//-0.008;//重心偏差  后
 	vmc_all.cog_off[2]=3;// 前后移动时角度倾斜
 	vmc_all.cog_off[3]=-3.2;// 旋转移动时角度倾斜 前
 	vmc_all.cog_off[4]=-1.68;// 旋转移动时角度倾斜 后
-#endif
+	
 	#if HIGE_LEG_TRIG
 	vmc_all.gait_time[0]=vmc_all.gait_time[1]=0.4;//步态周期
 	#else
 	vmc_all.gait_time[0]=vmc_all.gait_time[1]=0.376;//步态周期
 	#endif
+		//跨腿PID 足尖局部速度
+	vmc_all.kp_trig[0]=0.125;//0.125;//跨腿前馈增益
+	vmc_all.kp_trig[1]=0;//    跨腿加速度前馈增益
+	vmc_all.param.kp_pose_reset[0]=400;//自动归中增益
+	vmc_all.param.kp_pose_reset[1]=0;//自动归中增益
+#endif
+
 	vmc_all.gait_alfa=0.5;//步态占空比
 	vmc_all.stance_time=vmc_all.gait_time[1]*vmc_all.gait_alfa;
 	vmc_all.delay_time[0]=vmc_all.stance_time*0;//四足着地时间
@@ -115,7 +136,7 @@ void vmc_init(void)
 	vmc_all.ground_off[0]=0.035;//移动着地速度
 	vmc_all.ground_off[1]=0.0086;//空闲时的 着地速度
 	
-	vmc_all.kp_deng[FL1]=36/0.56*vmc_all.mess;//下蹬力幅值
+	vmc_all.kp_deng[FL1]=30/0.56*vmc_all.mess;//下蹬力幅值
 	vmc_all.kp_deng[FL2]=vmc_all.kp_deng[FL1];
 	vmc_all.kp_deng[BL1]=vmc_all.kp_deng[FL1];
 	vmc_all.kp_deng[BL2]=vmc_all.kp_deng[FL1];
@@ -136,23 +157,31 @@ void vmc_init(void)
 	MAX_X=vmc_all.l1*1.15;
 	
 //---------------------控制参数---------------------	
-	//跨腿PID 足尖局部速度
-	vmc_all.kp_trig[0]=0.125;//0.125;//跨腿前馈增益
-	vmc_all.kp_trig[1]=0;//    跨腿加速度前馈增益
+
 	
 	vmc_all.pid[Xr][P]=268;//200//跨腿速度增益
-	vmc_all.pid[Xr][I]=50;//20;//跨腿速度积分
-	
+	vmc_all.pid[Xr][I]=25;//20;//跨腿速度积分
+	//---------------VMC库-------------------		
+	//位置PID
+	pos_pid_all.kp=0.4;
+	pos_pid_all.ki=0.025;
 	//高度PID
 	h_pid_all.kp=3;
 	h_pid_all.ki=15;
 	h_pid_all.kd=4;
 	
+	//俯仰横滚姿态PID
+	att_pid_all[PITr].ki=13;
+	att_pid_all[PITr].kd=0.001;
+	
+	att_pid_all[ROLr].ki=18;
+	att_pid_all[ROLr].kd=0.002;
+	
 	//---------------DEMO-------------------		
   //位姿控制PID
 	pid_force[PITr].kp=350;
 	pid_force[ROLr].kp=600;
-  pid_force[Zr].kp=1000;
+  pid_force[Zr].kp=1600;
 	pid_force[Zr].ki=800;
 	
 	vmc_all.pid[Zr][P]=8888;//888;//600;//Z轴增益
@@ -161,23 +190,17 @@ void vmc_init(void)
 	 vmc_all.pid[Zr][P]=10000;//Z轴增益
 	 vmc_all.pid[Zr][D]=200;//Z内环P 轴微分	
 	#endif
-	//俯仰横滚姿态PID
-	att_pid_all[PITr].ki=13;
-	att_pid_all[PITr].kd=0.001;
-	
-	att_pid_all[ROLr].ki=18;
-	att_pid_all[ROLr].kd=0.002;
 	
   //航向蹬腿  PID
-	vmc_all.pid_att[YAWr][P]=1.35;
-	vmc_all.pid_att[YAWr][D]=0;//微分
-	vmc_all.pid_att[YAWr][IP]=0.002;
-	vmc_all.pid_att[YAWr][ID]=0.020;//微分
-  vmc_all.pid_att[YAWr][FB]=0.00358;//前馈
+	att_pid_all[YAWr].kp=1.35;
+	att_pid_all[YAWr].kd=0;//微分
+	att_pid_all[YAWr].kp_i=0.002;
+	att_pid_all[YAWr].kd_i=0.010;//微分
+  att_pid_all[YAWr].fp_i=0.00358;//前馈
 	
 	vmc_all.flt_toqrue=0.05;//扭矩滤波  WS
 	#if defined (BIG_LITTRO_DOG)	
-		vmc_all.gain_torque=125;//扭矩 转速  增益
+		vmc_all.gain_torque=100;//扭矩 转速  增益
 	#endif
 	#if defined (MINI_LITTRO_DOG)	
 		vmc_all.gain_torque=400;//扭矩 转速  增益
@@ -188,10 +211,13 @@ void vmc_init(void)
 		vmc_all.use_att=0;					//使用姿态控制 0使用腿长度
 		vmc_all.use_ground_sensor=0;//使用着地传感器
 		vmc_all.gait_time[1]=vmc_all.gait_time[0]*4;//步态周期
-		vmc_all.delta_h*=1.5;
+		vmc_all.delta_ht[0]=vmc_all.delta_ht[1]=vmc_all.delta_ht[1]*1.5;
 	#else
 		vmc_all.use_att=1;				  //使用姿态控制 0使用腿长度
 		vmc_all.use_ground_sensor=0;//使用着地传感器
+	#endif
+	#if VIR_MODEL
+		vmc_all.use_att=0;	
 	#endif
 	//-------------全局参数---------------
 	vmc_all.param.end_sample_dt=0.01;//足端速度微分时间
@@ -202,8 +228,7 @@ void vmc_init(void)
 	vmc_all.param.control_out_of_maxl=0.15;//姿态控制最大控制量与腿长比例
 	vmc_all.param.att_limit_for_w=4.56;//计算权重最大的角度限制
 	vmc_all.param.en_hold_on=1;
-	vmc_all.param.kp_pose_reset[0]=600;//自动归中增益
-	vmc_all.param.kp_pose_reset[1]=60;//自动归中增益
+
   vmc_all.param.en_att_tirg=1;//姿态倾斜影响跨腿轨迹
 	vmc_all.k_auto_time=1;//自动步态时间调整增益
 	vmc_all.trig_mode=1;//跨腿轨迹模式 0->摆线
@@ -267,7 +292,7 @@ static void state_rst_d(float dt)
 	leg_off_publish_d();
 	
 	for(i=0;i<4;i++){
-	 vmc[i].tar_spd.x=vmc_all.tar_spd_use_rc.x;
+	 vmc[i].tar_spd.x=vmc_all.param.tar_spd_use_rc.x;
 	 vmc[i].param.delta_h=vmc_all.delta_ht[0];
 	 vmc[i].param.pid[Xr][0]=vmc_all.pid[Xr][0];
 	 vmc[i].param.pid[Xr][1]=vmc_all.pid[Xr][1];
@@ -342,6 +367,7 @@ static void state_rst_d(float dt)
 		if(vmc[1].ground&&vmc[2].ground==1)
 			DigitalLPF(vmc[1].epos.z/2+vmc[2].epos.z/2,&vmc_all.param.line_z[1],5,dt);
 		
+
 		//机体速度估计  里程计
 		//机械速度 x 前后
     if(vmc_all.ground_num>1){
@@ -355,6 +381,9 @@ static void state_rst_d(float dt)
 			
 			DigitalLPF(-temp[0], &vmc_all.body_spd[Zr], 3, dt);
 		}
+		//机械速度  左右
+		vmc_all.param.encoder_spd[R]=vmc[0].spd.x*vmc[0].ground+vmc[1].spd.x*vmc[1].ground;
+		vmc_all.param.encoder_spd[L]=vmc[2].spd.x*vmc[2].ground+vmc[3].spd.x*vmc[3].ground;
 		//机械速度 rad
 		vmc_all.body_spd[YAWrr]=vmc_all.att_ctrl[YAWr];
 		
@@ -404,15 +433,15 @@ static void cal_tar_end_pos_d(VMC *in)
 	float tar_spd;
 	float cog_off_hover=0;
 	
-	if(vmc_all.tar_spd_use_rc.x>0)//机体偏差
+	if(vmc_all.param.tar_spd_use_rc.x>0)//机体偏差
 	 cog_off_hover=vmc_all.cog_off[F];
 	else
 	 cog_off_hover=vmc_all.cog_off[B];		
 	
 	if(in->flag_rl==1)
-		tar_spd=vmc_all.tar_spd_use[L].x;
+		tar_spd=vmc_all.param.tar_spd_use[L].x;
 	else
-		tar_spd=vmc_all.tar_spd_use[R].x;	
+		tar_spd=vmc_all.param.tar_spd_use[R].x;	
 	
 	cog_off=LIMIT(0.56*cog_off_hover,MIN_X*0.35,MAX_X*0.35);//重心补偿
 	
@@ -439,12 +468,12 @@ static void spd_control_d(float dt){
 	vmc_all.param.w_cmd[ROLr]=LIMIT(ABS(LIMIT(vmc_all.tar_att[ROLr]+vmc_all.tar_att_off[ROLr]-att_use[ROLr],
 	-25,25))/25,0,1);
 
-	vmc_all.tar_spd_use_rc.x=vmc_all.tar_spd.x*LIMIT(1-vmc_all.param.w_cmd[ROLr],0.5,0.8);
+	vmc_all.param.tar_spd_use_rc.x=vmc_all.tar_spd.x*LIMIT(1-vmc_all.param.w_cmd[ROLr],0.5,0.8);
 	
 	//---------------航向控制
 	static float rst_yaw[2];
 	static float timer;
-	if(fabs(vmc_all.tar_spd.z)<MAX_SPD_RAD*0.005&&fabs(vmc_all.tar_spd_use_rc.x)<MAX_SPD*0.005)
+	if(fabs(vmc_all.tar_spd.z)<MAX_SPD_RAD*0.005&&fabs(vmc_all.param.tar_spd_use_rc.x)<MAX_SPD*0.005)
 		rst_yaw[0]+=dt;
 	else
 		rst_yaw[0]=rst_yaw[1]=0;
@@ -466,7 +495,7 @@ static void spd_control_d(float dt){
 	
 	static float exp_yaw_rate=0;
 	if(timer>0.01){timer=0;
-		exp_yaw_rate=LIMIT(-vmc_all.pid_att[YAWr][P]*err_yaw,-MAX_SPD_RAD,MAX_SPD_RAD);
+		exp_yaw_rate=LIMIT(-att_pid_all[YAWr].kp*err_yaw,-MAX_SPD_RAD,MAX_SPD_RAD);
 	}		
 	timer+=dt;
 
@@ -478,9 +507,9 @@ static void spd_control_d(float dt){
 	
 	static float rate_reg;
 	float damp = (vmc_all.att_rate_ctrl[YAWr]- rate_reg) *( 0.005f/dt );
-	yaw_out=LIMIT(dead(exp_yaw_rate-vmc_all.att_rate_ctrl[YAWr],0.5),-MAX_SPD_RAD,MAX_SPD_RAD)*vmc_all.pid_att[YAWr][IP]+
-								 -damp*vmc_all.pid_att[YAWr][ID]+
-	               exp_yaw_rate*vmc_all.pid_att[YAWr][FB];//前馈
+	yaw_out=LIMIT(dead(exp_yaw_rate-vmc_all.att_rate_ctrl[YAWr],0.5),-MAX_SPD_RAD,MAX_SPD_RAD)*att_pid_all[YAWr].kp_i+
+								 -damp*att_pid_all[YAWr].kd_i+
+	               exp_yaw_rate*att_pid_all[YAWr].fp_i;//前馈
 	rate_reg=vmc_all.att_rate_ctrl[YAWr];
 	#if DEBUG_MODE
 	  yaw_out=0;
@@ -489,8 +518,8 @@ static void spd_control_d(float dt){
 		yaw_out=0;
 	
 	//控制差速输出
-	vmc_all.tar_spd_use[L].x=vmc_all.tar_spd_use_rc.x+yaw_out;
-	vmc_all.tar_spd_use[R].x=vmc_all.tar_spd_use_rc.x-yaw_out;
+	vmc_all.param.tar_spd_use[L].x=vmc_all.param.tar_spd_use_rc.x+yaw_out;
+	vmc_all.param.tar_spd_use[R].x=vmc_all.param.tar_spd_use_rc.x-yaw_out;
 }	
 
 static void vmc_force_control_d(VMC *in,float dt)
@@ -536,21 +565,22 @@ static void vmc_force_control_d(VMC *in,float dt)
 
 	
 //计算Y轴虚拟力
+float reset_k=200;
 static float cal_force_y_d(VMC *in,float dt)//前后
 {
  static float interge;
  float tar_spd;	
 	//旋转差速
 	if(in->flag_rl==1)
-		tar_spd=vmc_all.tar_spd_use[L].x;
+		tar_spd=vmc_all.param.tar_spd_use[L].x;
 	else
-		tar_spd=vmc_all.tar_spd_use[R].x;	
+		tar_spd=vmc_all.param.tar_spd_use[R].x;	
 	
  interge+=(tar_spd-in->spd.x)*in->param.pid[Xr][I]*dt;
  interge=LIMIT(interge,-50,50);
 	
  if(vmc_all.unmove)//静止下足尖归中
-	 in->force[Xr]=-400*(sind(vmc_all.att_trig[PITr])*in->epos.z-in->epos.x);
+	 in->force[Xr]=-reset_k*(sind(vmc_all.att_trig[PITr])*in->epos.z-in->epos.x);
  else
 	 in->force[Xr]=in->param.pid[Xr][P]*(tar_spd-in->spd.x)//速度前馈
 			+interge;//速度误差积分
@@ -676,8 +706,14 @@ void out_range_protect_d(void)
 	   flag_nan++;
 	}
 	#if !DEBUG_MODE		
+	static float err_timer=0;
 	if(flag_nan>0||
-	   fabs(vmc_all.att_ctrl[PITr])>75||fabs(vmc_all.att_ctrl[ROLr])>75){
+	   fabs(vmc_all.att_ctrl[PITr])>75||fabs(vmc_all.att_ctrl[ROLr])>75)
+	  err_timer+=0.005;
+	else
+		err_timer=0;
+	if(err_timer>0.05){
+		err_timer=0;
 		vmc_all.leg_power=0;
 	  vmc_all.err=1;
 	}
@@ -711,38 +747,36 @@ void convert_mine_to_vmc_d(VMC *vmc)
 	vcal_pwm_from_sita_d(vmc);
 }
 
+static float att_trig_reset_dead=2.56;
 char power_task_d(float dt)
 {
+	u8 i;
 	static float t,t_rst[3],timer[5];	
 	static u8 state,rst_state,soft_start_state;
 	float cog_off,att_off;
 	float end_dis[4];
-	u8 i,have_cmd=0;
 	float att_use[3],err[2];
- //att_use[ROLr]=vmc_all.att_vm[ROLr];
+
 	att_use[ROLr]=vmc_all.att_ctrl[ROLr];
 	err[ROLr]=vmc_all.tar_att[ROLr]+vmc_all.tar_att_off[ROLr]-att_use[ROLr];
 	
-  if(ABS(vmc_all.tar_spd_use_rc.x)>MAX_SPD*0.015||ABS(vmc_all.tar_spd.z)>MAX_SPD_RAD*0.015)	
-	 have_cmd=1;
-		
 	switch(vmc_all.power_state)
 	{
 		case 0:
-			if(ABS(vmc_all.tar_spd_use_rc.x)>MIN_SPD_ST||vmc_all.sita_test[4])
-				t+=dt;
-		  else
-				t=0;
-			if(t>2)
-			{vmc_all.leg_power=1;
-			   vmc_all.power_state=1;}
+			if(ABS(vmc_all.param.tar_spd_use_rc.x)>MIN_SPD_ST||vmc_all.sita_test[4]) 
+				 t+=dt;
+			else
+				 t=0;
+			
+			if(t>1)
+			{vmc_all.leg_power=vmc_all.power_state=1;t=0;}
     break;		
 	  case 1://启动时缩腿保护
 			 vmc_all.gait_on=0;
 			 for(i=0;i<4;i++){
 				vmc[i].sita1=0-30;
 				vmc[i].sita2=180-(-30);
-				estimate_end_state_d(&vmc[i],dt);
+				estimate_end_state(&vmc[i],dt); 
 				vmc[i].ground=1; 
 	     }
 			 t+=dt;
@@ -756,23 +790,21 @@ char power_task_d(float dt)
 			 }
 		break;	
 		case 2://站立
-			vmc_all.tar_spd_use_rc.x=vmc_all.tar_spd.y=vmc_all.tar_spd.z=0;
+			vmc_all.param.tar_spd_use_rc.x=vmc_all.tar_spd.y=vmc_all.tar_spd.z=0;
 		  vmc_all.tar_att[YAWr]=vmc_all.att_ctrl[YAWr];
 		  vmc_all.unmove=1;
 		  for(i=0;i<4;i++){
 		   vmc[i].tar_pos.z=vmc_all.tar_pos.z;
 			 vmc[i].tar_epos.z=vmc_all.tar_pos.z;
 			}
-			
 		   t+=dt;
 			 if(t>2)
 			 {t=0;vmc_all.power_state=3;}
 		break;
     case 3://正常工作
-				cog_off=vmc_all.cog_off_use[0];//重心补偿
-				att_off=vmc_all.cog_off_use[1];//姿态地形跟随
-	
-		
+				cog_off=vmc_all.param.cog_off_use[0];//重心补偿
+				att_off=vmc_all.param.cog_off_use[1];//姿态地形跟随
+
 		 //------------------------自动复位跨腿--------------------------
 			for(i=0;i<4;i++)
 			  vmc_all.end_dis[i]=end_dis[i]=ABS(vmc[i].epos.x-(cog_off+att_off));
@@ -785,8 +817,8 @@ char power_task_d(float dt)
 					
 					if(((end_dis[0]+end_dis[3])>vmc_all.rst_dead //腿超出自复位
 						||(end_dis[1]+end_dis[2])>vmc_all.rst_dead)
-					  &&vmc_all.hand_hold==0&&vmc_all.unmove==0&&fabs(err[ROLr])<3)
-					 {rst_state=3;vmc_all.delta_ht[0]=0.6*vmc_all.delta_ht[1];}
+					  &&vmc_all.hand_hold==0&&vmc_all.unmove==0&&fabs(err[ROLr])<att_trig_reset_dead)
+					 {rst_state=2;vmc_all.delta_ht[0]=0.6*vmc_all.delta_ht[1];}
 				break;
 				case 1://一段时间无遥控
 			   if(vmc_all.param.have_cmd==0)
@@ -794,26 +826,25 @@ char power_task_d(float dt)
 				 else
 				  t_rst[0]=0;
 				 
-				  vmc_all.delta_ht[0]+=(vmc_all.delta_ht[1]-vmc_all.delta_ht[0])*0.735*dt;
+				  vmc_all.delta_ht[0]+=(vmc_all.delta_ht[1]-vmc_all.delta_ht[0])*0.8*dt;
 
-					if(t_rst[0]>T_RST&&fabs(err[ROLr])<3)
-					{rst_state=2;t_rst[0]=0;vmc_all.delta_ht[0]=0.6*vmc_all.delta_ht[1];}
+					if(t_rst[0]>T_RST&&fabs(err[ROLr])<att_trig_reset_dead)
+					{rst_state=t_rst[0]=0;vmc_all.delta_ht[0]=0.45*vmc_all.delta_ht[1];}
 				break;
 				case 2://主动复位
-					 //if(vmc_all.use_ground_sensor)
 						vmc_all.gait_on=1;
 				   if(vmc_all.param.have_cmd==1)
-					 {rst_state=1;t_rst[0]=0;}
+					 {rst_state=t_rst[0]=0;}
 					 else
 						t_rst[0]+=dt; 
 				    
 					 if(t_rst[0]>vmc_all.stance_time*2)
-						{rst_state=0;t_rst[0]=0;}
+						{rst_state=t_rst[0]=0;}
 			  break;	
 		  }
     break;
 	}
-	
+	if(vmc_all.param.soft_start==0)
 	 vmc_all.delta_ht[0]= vmc_all.delta_ht[1];
 	if(vmc_all.power_state<=2)
 	 vmc_all.tar_att[YAWr]=vmc_all.att_ctrl[YAWr];
@@ -836,7 +867,7 @@ static void state_check_d(float dt)
  for(i=0;i<4;i++)
    ground_num[0]+=vmc[i].ground;
 
- if(ABS(vmc_all.tar_spd_use_rc.x)>MAX_SPD*0.015||ABS(vmc_all.tar_spd.z)>MAX_SPD_RAD*0.015)	
+ if(ABS(vmc_all.param.tar_spd_use_rc.x)>MAX_SPD*0.015||ABS(vmc_all.tar_spd.z)>MAX_SPD_RAD*0.015)	
 	 have_cmd=1;
 //---------------------静止判断-------------------------
 	switch(state_unmove)
@@ -931,7 +962,7 @@ void  VMC_DEMO(float dt)
 	{
 		case 0:
 		if(vmc_all.unmove==0&&vmc_all.hand_hold==0&&	
-		  (ABS(vmc_all.tar_spd_use_rc.x)>MIN_SPD_ST||ABS(vmc_all.tar_spd.z)>MIN_SPD_ST||ABS(vmc_all.tar_spd.y)>MIN_SPD_ST||vmc_all.gait_on)){
+		  (ABS(vmc_all.param.tar_spd_use_rc.x)>MIN_SPD_ST||ABS(vmc_all.tar_spd.z)>MIN_SPD_ST||ABS(vmc_all.tar_spd.y)>MIN_SPD_ST||vmc_all.gait_on)){
 				cnt_time_change++;
 			  if(cnt_time_change>=3){
 			  vmc_all.stance_time=vmc_all.stance_time_auto;		

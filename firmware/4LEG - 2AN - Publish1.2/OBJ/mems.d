@@ -60,3 +60,4 @@
 ..\obj\mems.o: ..\HARDWARE\IIC\icm20602.h
 ..\obj\mems.o: ..\HARDWARE\IIC\cycle_cal_oldx.h
 ..\obj\mems.o: d:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+..\obj\mems.o: ..\HARDWARE\IIC\filter.h

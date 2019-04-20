@@ -20,25 +20,22 @@ typedef struct
 
 	xyz_f_t Acc;
 	xyz_f_t Gyro;
-
-//	XYZ_STRUCT Acc_deg;
 	xyz_f_t Gyro_deg;
-	
+	xyz_f_t Mag;
 	xyz_f_t Acc_Offset;
 	xyz_f_t Gyro_Offset;
 	xyz_f_t Gyro_Auto_Offset;
-	xyz_f_t vec_3d_cali;
 	xyz_f_t Gain_3d;
 	xyz_f_t Off_3d;
-	float att_off[2];
-	float Acc_Temprea_Offset;
-	float Gyro_Temprea_Offset;
-	
-	float Gyro_Temprea_Adjust;
-	float ACC_Temprea_Adjust;
- 
-	s16 Tempreature;
-	float TEM_LPF;
+ 	char Mag_CALIBRATE,Mag_Have_Param,Mag_ERR,Mag_update;
+	xyz_s16_t Mag_Adc,Mag_Adc_o;			//采样值
+	xyz_f_t   Mag_Offset,Mag_Offseto;		//偏移值
+	xyz_f_t   Mag_Offset_c,Mag_Offset_co;		//偏移值
+	xyz_f_t   Mag_Gain,Mag_Gaino;		//偏移值
+	xyz_f_t 	Mag_Gain_c,Mag_Gain_co;			//比例缩放	
+	xyz_f_t 	Mag_Val,Mag_Val_t,Mag_Valo,Mag_Val_to;			//纠正后的值
+	float hmlOneMAG,hmlOneACC;
+  float Yaw_Mag;
 	float Ftempreature;
 }_MEMS;
 
@@ -48,4 +45,5 @@ extern u8 acc_3d_calibrate_f,acc_3d_step;
 
 void IMU_Read(void);
 void IMU_Data_Prepare(float T);
+void LIS_CalOffset_Mag(float dt);
 #endif
