@@ -10,9 +10,10 @@
   足机器人具有丰富的机器人，通过将其与所开发的飞控项目二次结合推出了MocoMoco四足机器人开发平台，囊括机器人结构、步态算法和SLAM无人驾驶
   等多个足式机器人核心技术内容。项目遵循GPL协议，能对DEMO内相关源码进行修改和二次开发。<br><br>
 
+**相关资料** 
 机器人测试视频更新地址：https://www.bilibili.com/video/av46405055 <br>
-为方便程序单独下载目前各版本固件从这下载：https://github.com/golaced/MocoMoco_Software
- 
+为方便程序单独下载目前各版本固件从这下载：https://github.com/golaced/MocoMoco_Software<br>
+机器人校准视频教程：https://www.bilibili.com/video/av51043941<br>
 <br>
 **-搭建该项目的方式-**
 
