@@ -13,7 +13,7 @@
 **相关资料** 
 机器人测试视频更新地址：https://www.bilibili.com/video/av46405055 <br>
 为方便程序单独下载目前各版本固件从这下载：https://github.com/golaced/MocoMoco_Software<br>
-机器人校准视频教程：https://www.bilibili.com/video/av51043941<br>
+机器人校准视频教程：https://www.bilibili.com/video/av51603154<br>
 <br>
 **-搭建该项目的方式-**
 
